@@ -261,7 +261,7 @@ And finally we define the steps for the test to run.
 
 The `browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the protractor configuration file.
 
-Then we have two expectations, one to check that the tile of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same text.
+Then we have two expectations, one to check that the title of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same `"WebRTC Sample"` text on it.
 
 With this we are ready to run our first test.
 
