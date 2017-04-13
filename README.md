@@ -104,7 +104,18 @@ After the protractor's successful installation, the following code should be dis
 }
 ```
 
-With protractor correctly installed we can already start configuring it.
+As a last step for the protractor installation, update the just shown code (above) to look like this:
+
+```
+"devDependencies": {
+  "jasmine-spec-reporter": "^3.2.0",
+  "protractor": "5.0.0"
+}
+```
+
+By removing the `^` symbol from protractor's version we ensure that if the `node_modules` directory is removed and `npm i` is executed again, the correct version of protractor will be installed.
+
+Now with protractor correctly installed we can start configuring it.
 
 ### Protractor configuration setup
 
