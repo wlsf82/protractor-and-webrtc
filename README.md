@@ -293,11 +293,11 @@ And that's it, we have the first test running and passing.
 
 Now, let's move on to the next lesson to create some new tests and to organize things better.
 
-## Lesson 2 - Page object
+## Lesson 2 - New tests and page object
 
-## Lesson 3 - Two Browsers (first test)
+## Lesson 3 - Two browsers (first test)
 
-## Lesson 4 - Two Browsers (other tests)
+## Lesson 4 - Two browsers (other tests)
 
 ## Lesson 5 - Separating tests
 
