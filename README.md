@@ -39,9 +39,9 @@ In this lesson you will learn:
 
 - How to install the application dependencies
 - How to start the app
-- How to install protractor as a dev dependency
+- How to install protractor and a test report as dev dependencies
 - How to create a basic protractor configuration for running end-to-end tests
-- And how to create a npm test script
+- And how to create and run a npm test script
 
 ### Installing the app dependencies
 
@@ -71,22 +71,25 @@ After allowing the browser to access the camera, you should see yourself in the 
 
 Now that everything is working, it's time to install protractor, so that you can create automated end-to-end tests.
 
-### Protractor installation
+### Protractor and test report installation
 
 Protractor is also Node.js based, so we will use npm (node package manager) to install it.
 
 From the project's root directory (in another console's tab), run the bellow command:
 
-`npm i protractor@5.0.0 -D`
+`npm i protractor@5.0.0 jasmine-spec-reporter -D`
 
 Note: It is necessary to define the version 5.0.0 of protractor due to an issue with version 5.1.x related to the usage of `forkNewDriverInstance()` and `browser.ignoreSynchronization`. This specific things will be explained later during the course.
 
+At the same time, we are installing a node module called `jasmine-spec-reporter`, that will be used for better test reporting.
+
 The `-D` argument will install protractor as a dev dependency.
 
-After the protractor's successful installation, the following code should be displayed in the `package.json` file:
+After the protractor's successful installation, the following code should be displayed in the `package.json` file (the `jasmine-spec-reporter` version may be newer):
 
 ```
 "devDependencies": {
+  "jasmine-spec-reporter": "^3.2.0",
   "protractor": "^5.0.0"
 }
 ```
@@ -217,6 +220,78 @@ Also, while the npm script is running, you should see the Chrome browser being a
 And with this we finish lesson 0. Move on to lesson 1 to create the first test.
 
 ## Lesson 1 - First test
+
+Now that we have an app up and running and the basic configurations needed for protractor, it is time to create the first test.
+
+In this lesson you will learn:
+
+- How to create a simple end-to-end test
+- And how to run the first test
+
+### Test creation
+
+This first test will not focus on specific WebRTC stuff, but to the protractor basics. Later, with some knowledge about how to create tests with protractor we will evolve to specific test for WebRTC applications.
+
+In the already created test folder, create a file called `spec.js`. This is the file that will store our test suite.
+
+Then add the following code snippet to the just created file (every part of the code willl be explained):
+
+```
+"use strict";
+
+describe("WebRTC Sample", () => {
+    it("should show title", () => {
+        browser.get("http://localhost:8080");
+
+        expect(browser.getTitle()).toEqual("WebRTC Sample");
+        expect(element(by.css("h1")).getText()).toEqual("WebRTC Sample");
+    });
+});
+```
+
+Again, in the beginning we are using `"use strict";` due to ECMAScript 2015 syntax.
+
+Then we are defining a `desbribe` statement, that receives two arguments, the first one is a string that will name the test suite (in this case `"WebRTC Sample"`), and the second argument is a callback function.
+
+Then we define an `it` statement. This statement also receives a string as the first argument and a callback function and the second argument. The first argument will basically name our first test case, and the second one will run all the steps of our test.
+
+And finally we define the steps for the test to run.
+
+The `browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the protractor configuration file.
+
+Then we have two expectations, one to check that the tile of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same text.
+
+With this we are ready to run our first test.
+
+### Running the test
+
+Use the below command to run the just created test:
+
+`npm test`
+
+After the test is executed, you should see an output like this:
+
+```
+Spec started
+Started
+
+  WebRTC Sample
+    ✓ should show title
+.
+Executed 1 of 1 spec SUCCESS in 0.354 sec.
+
+
+
+1 spec, 0 failures
+Finished in 0.353 seconds
+[16:59:05] I/local - Shutting down selenium standalone server.
+[16:59:05] I/launcher - 0 instance(s) of WebDriver still running
+[16:59:05] I/launcher - chrome #01 passed
+```
+
+And that's it, we have the first test running and passing.
+
+Now, let's move on to the next lesson to create some new tests and to organize things better.
 
 ## Lesson 2 - Page object
 
