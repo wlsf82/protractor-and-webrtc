@@ -26,7 +26,7 @@ In this code lab you will be able to:
 
 - [Setup the application under test (AUT)](https://github.com/wlsf82/protractor-and-webrtc#lesson-0---setup)
 - [Create the first end-to-end test for the AUT](https://github.com/wlsf82/protractor-and-webrtc#lesson-1---first-test)
-- Create more tests and organize them using best practices
+- [Create more tests and organize them using best practices](https://github.com/wlsf82/protractor-and-webrtc#lesson-2---page-object-and-new-tests)
 - Learn how to create tests that simulate real usage of WebRTC apps
 - Find other useful resources to keep learning about end-to-end tests for web apps
 
@@ -314,9 +314,217 @@ And that's it, we have the first test running and passing.
 
 Now, let's move on to the next lesson to create some new tests and to organize things better.
 
-## Lesson 2 - New tests and page object
+## Lesson 2 - Page Object and new tests
+
+Before creating the new tests we will create a Page Object file to store some specific elements from the main page of the application under test.
+
+Page Objects help on writing cleaner tests by encapsulating information about the elements on the application page. A Page Object can be reused across multiple tests, and if the template of your application changes, you only need to update the Page Object.
+
+### Page Object creation
+
+Inside the `test` directory, create a file called `webrtcSample.po.js`.
+
+The `.po` extension means that this is a Page Object file. This is just a convention that helps on identifying different kind of files, such as test files (`*.spec.js`), configuration files (`protractor.conf.js`) and Page Object files (`webrtcSample.po.js`).
+
+Add the following code snipped to the just created `.po` file (all the code will be explained):
+
+```
+"use strict";
+
+class WebrtcSample {
+    constructor() {
+        this.title = element(by.css("h1"));
+        this.videoCanvas = element(by.id("videoCanvas"));
+        this.snapButton = element(by.id("snap"));
+        this.sendButton = element(by.id("send"));
+        this.snapAndSendButton = element(by.id("snapAndSend"));
+        this.incomingPhotosTitle = element(by.css("h2"));
+    }
+}
+
+module.exports = WebrtcSample;
+```
+
+Again, we are using `"use strict;"` due to ECMAScript 2015 syntax.
+
+Then we are defining a `WebrtcSample` class and this class has a constructor that exposes publicly (using `this`) different web elements from the application under test.
+
+Some of the elements are defined using a css selector:
+
+> `this.title = element(by.css("h1"));`
+> `this.incomingPhotosTitle = element(by.css("h2"));`
+
+And others are identified by their ids:
+
+> `this.videoCanvas = element(by.id("videoCanvas"));`
+> `this.snapButton = element(by.id("snap"));`
+> `this.sendButton = element(by.id("send"));`
+> `this.snapAndSendButton = element(by.id("snapAndSend"));`
+
+And finally we are exporting the `WebrtcSample` class as a module.
+
+With the Page Object create, before creating new tests we can update the already existing one to use it.
+
+### Update test to use Page Object
+
+Change the code of the already existing test to look like this (the code will be explained):
+
+```
+"use strict";
+
+const WebrtcSample = require("./webrtcSample.po");
+
+describe("WebRTC Sample - one client", () => {
+    const webrtcSample = new WebrtcSample();
+
+    it("should show title", () => {
+        browser.get("http://localhost:8080");
+
+        expect(browser.getTitle()).toEqual("WebRTC Sample");
+        expect(webrtcSample.title.getText()).toEqual("WebRTC Sample");
+    });
+});
+```
+
+Note that right after the `"use strict;"` statement we are requiring the just create Page Object and storing it in a variable called `WebrtcSample`.
+
+Note that we are also instantiating a new instance of the `WebrtcSample` class and storing it in a variable called `webrtcSample`
+
+Note: We use upper camel case for the class name and lower camel case for the object creation.
+
+Finally, note that in the second expectation, instead of defining the element directly in the test, we are now using the just instantiated object, and getting the text of the `title` element of this Page Object for comparing the our expectation (`.toEqual("WebRTC Sample");`).
+
+> Using Page Objects not only helps on maintainability, but also on readability.
+
+Now it is time to create some new tests.
+
+### Create new tests using the just create Page Object
+
+Let's create some new tests to check that the main elements of the application are displayed when accessing it and to verify some expected behaviors when simulating a real use case.
+
+Update the `spec.js` file with the following new code:
+
+```
+"use strict";
+
+const WebrtcSample = require("./webrtcSample.po");
+
+describe("WebRTC Sample - one client", () => {
+    const webrtcSample = new WebrtcSample();
+
+    beforeEach(() => {
+        browser.get("http://localhost:8080");
+    });
+
+    it("should show title", () => {
+        expect(browser.getTitle()).toEqual("WebRTC Sample");
+        expect(webrtcSample.title.getText()).toEqual("WebRTC Sample");
+    });
+
+    it("should show video element and buttons for 'snap', 'send' and 'send and snap'", () => {
+        expect(webrtcSample.videoCanvas.isDisplayed()).toBe(true);
+        expect(webrtcSample.snapButton.isDisplayed()).toBe(true);
+        expect(webrtcSample.sendButton.isDisplayed()).toBe(true);
+        expect(webrtcSample.snapAndSendButton.isDisplayed()).toBe(true);
+    });
+
+    it("should show header for incoming photos", () => {
+        expect(webrtcSample.incomingPhotosTitle.getText()).toEqual("Incoming photos");
+    });
+});
+```
+
+Note that a `beforeEach` function was created and that the code for the test to access the URL of the application was moved to this function.
+
+This is useful for not duplicating the call of this code in all tests, because this way we ensure that each test is independent of each other, and also to ensure that each test is with the application in a "clean" state.
+
+Note also that beyond the already existing test, we now have two more tests.
+
+One of the new tests verify that some main elements of the application are displayed, and the other one checks that the correct text is displayed for a specific element.
+
+### Create some low level test cases
+
+Some times, when creating tests for WebRTC applications we may need to check some informations that may not be available to the final users, but that may be available to the browser where the application is running. This will be the focus of the new tests that we will create.
+
+Update the `spec.js` file with the following new tests:
+
+```
+it("should autoplay video be enabled", () => {
+    const isVideoAutoplayEnabled = browser.executeScript("const video = document.getElementById('camera'); return video.autoplay;");
+
+    expect(isVideoAutoplayEnabled).toBe(true);
+});
+
+it("should have the same room name on url and when returning it on console", () => {
+    const roomNameFromUrl = webrtcSample.getRoomNameFromUrl();
+    const roomNameFromConsole = browser.executeScript("return room;");
+
+    expect(roomNameFromUrl).toEqual(oomNameFromConsole);
+});
+```
+
+The first new test store in a variable called `isVideoAutoplayEnabled` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that video autoplay is enabled.
+
+This is a powerful option of Protractor and it may be very useful when testing WebRTC applications.
+
+Now let's update the Page Object file, before the explanation of the second new test.
+
+Add the following method to the `WebrtcSample` class, right below the `constructor` definition:
+
+```
+getRoomNameFromUrl() {
+    return browser.getCurrentUrl().then((url) => {
+        const roomNameFromUrl = url.replace(/http:\/\/localhost:[0-9]{0,4}\/#/g, "");
+        return roomNameFromUrl;
+    });
+}
+```
+
+This method will basically return the room name generated when visiting the home page of the WebRTC Sample application, directly from the URL.
+
+Now you can revisit the second new test and note that:
+
+- It stores in a variable called `roomNameFromUrl` the room name returned by the just created method in the Page Object.
+- It also stores in a variable called `roomNameFromConsole` the value of room name, but now from the console. Think of this as a information that is in the background, not visually available for the final user.
+- And it expects that both room names (from the URL and from the console) are the same.
+
+### Run the new tests
+
+Use the below command to run all the tests:
+
+`npm test`
+
+An output like this should be displayed in the console:
+
+```
+Spec started
+Started
+
+  WebRTC Sample - one client
+    ✓ should show title
+.    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
+.    ✓ should show header for incoming photos
+.    ✓ should autoplay video be enabled
+.    ✓ should have the same room name on url and when returning it on console
+.
+Executed 5 of 5 specs SUCCESS in 0.729 sec.
+
+
+
+5 specs, 0 failures
+Finished in 0.729 seconds
+[22:32:23] I/local - Shutting down selenium standalone server.
+[22:32:23] I/launcher - 0 instance(s) of WebDriver still running
+[22:32:23] I/launcher - chrome #01 passed
+```
+
+Now we already have a good first test suite for the basic things of our sample application and it is time to start creating some test cases that will simulate the usage of the app with more real use cases and more interaction. Move on to the next lesson.
 
 ## Lesson 3 - Two browsers (first test)
+
+You may have noticed that so far all the tests are only navigating to the application under test and doing verifications, no other interaction is being done, and this is what we will see next.
+
+### Create new tests with more interaction
 
 ## Lesson 4 - Two browsers (other tests)
 
