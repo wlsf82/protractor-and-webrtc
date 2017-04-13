@@ -175,15 +175,15 @@ If everything went ok you should see an output like this:
 ```
 > webdriver-manager update && ./node_modules/.bin/protractor test/protractor.conf.js
 
-[15:26:53] I/update - chromedriver: file exists /Users/walmyr/www/protractor-and-webrtc/lessons/lesson-0/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26mac64.zip
+[15:26:53] I/update - chromedriver: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26mac64.zip
 [15:26:53] I/update - chromedriver: unzipping chromedriver_2.26mac64.zip
-[15:26:53] I/update - chromedriver: setting permissions to 0755 for /Users/walmyr/www/protractor-and-webrtc/lessons/lesson-0/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26
+[15:26:53] I/update - chromedriver: setting permissions to 0755 for /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26
 [15:26:53] I/update - chromedriver: 2.26 up to date
-[15:26:54] I/update - selenium standalone: file exists /Users/walmyr/www/protractor-and-webrtc/lessons/lesson-0/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar
+[15:26:54] I/update - selenium standalone: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar
 [15:26:54] I/update - selenium standalone: 2.53.1 up to date
-[15:26:54] I/update - geckodriver: file exists /Users/walmyr/www/protractor-and-webrtc/lessons/lesson-0/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0-macos.tar.gz
+[15:26:54] I/update - geckodriver: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0-macos.tar.gz
 [15:26:54] I/update - geckodriver: unzipping geckodriver-v0.12.0-macos.tar.gz
-[15:26:54] I/update - geckodriver: setting permissions to 0755 for /Users/walmyr/www/protractor-and-webrtc/lessons/lesson-0/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0
+[15:26:54] I/update - geckodriver: setting permissions to 0755 for /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0
 [15:26:54] I/update - geckodriver: v0.12.0 up to date
 [15:26:55] I/local - Starting selenium standalone server...
 [15:26:55] I/launcher - Running 1 instances of WebDriver
