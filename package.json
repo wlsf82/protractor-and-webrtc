@@ -8,8 +8,5 @@
   },
   "main": "index.js",
   "author": "Walmyr Filho <wlsf82@gmail.com>",
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "protractor": "^5.0.0"
-  }
+  "license": "UNLICENSED"
 }
