@@ -1,5 +1,7 @@
 # Protractor and WebRTC
 
+**!!! THIS IS STILL WORK IN PROGRESS !!!**
+
 This project is a code lab to teach the basics for creating end-to-end tests with [Protractor](http://www.protractortest.org/#/) for [WebRTC](http://webrtc.org/) applications.
 
 Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-AngularJS apps as well, as will be shown in this code lab.
@@ -93,16 +95,18 @@ With protractor correctly installed we can already start configuring it.
 
 ### Protractor configuration setup
 
-The first thing needed to start using protractor is to setup some basic configuration.
+The first thing needed to start using protractor is to setup some basic configurations.
 
 Follow the instructions:
 
 In the project's root directory, create a `test` folder, and inside this folder create a file named `protractor.conf.js`.
 
-After creating the file, add the following code to it (each part will be explained):
+After creating the file, add the following code snippet to it (each part will be explained):
 
 ```
 "use strict";
+
+const SpecReporter = require("jasmine-spec-reporter").SpecReporter;
 
 module.exports.config = {
     "specs": ["spec.js"],
@@ -117,6 +121,12 @@ module.exports.config = {
     },
     onPrepare() {
         browser.ignoreSynchronization = true;
+        jasmine.getEnv().addReporter(new SpecReporter({
+            "displayFailuresSummary": true,
+            "displayFailedSpec": true,
+            "displaySuiteNumber": true,
+            "displaySpecDuration": true
+        }));
     },
     "jasmineNodeOpts": {
         "defaultTimeoutInterval": 10000
@@ -126,38 +136,41 @@ module.exports.config = {
 
 First of all, we are defining `"use strict;"` because all the testing code will be written using ECMAScript 2015 syntax.
 
+Secondly we are requiring a module called `jasmine-spec-reporter` and storing it in a variable called `SpecReporter`. This will be used for a better test report in the console.
+
 Then we are exporting a config module, where all configurations needed for protractor to run the tests will be defined.
 
 Each configuration will be explained below:
 
 #### specs
 
-This attribute has an array as its value. The values defined inside this array will be the name of the test files, and they need to be quoted and separated by comma.
+This attribute has an array as its value. The values defined inside this array will be the name of the test files, and they need to be quoted and comma separated.
 
 Note: Since we are defining only one value for the array, there is no need for comma.
 
 #### capabilities
 
-This is the attribute that defines the browser that the tests will be executed against.
-For the capabilities config we are also defining some arguments for the `chromeOptions`, to automatically allow the browser's camera usage and to fake media streams.
+This is the attribute that defines the browser where the tests will be executed against.
+For the capabilities config we are also defining some arguments for the `chromeOptions`, to automatically allow the browser's camera usage and to fake media stream.
 
 #### onPrepare()
 
-This is an important configuration!
+This is an important configuration.
 
-Protractor is and end-to-end test framework for AngularJS applications, so, to use it for non-Angular apps, it is necessary to define the configuration `browser.ignoreSynchronization = true;`.
-This configuration tells protractor to not look for Angular when running the tests, and it is defined in the `onPrepare` function since this is a callback function called once protractor is ready and available, and before the specs are executed.
+Protractor is and end-to-end test framework for AngularJS applications, so, to use it for non-AngularJS apps, it is necessary to define the configuration `browser.ignoreSynchronization = true;`. This configuration tells protractor to not look for Angular when running the tests, and it is defined in the `onPrepare` function since this is a callback function called once protractor is ready and available, and before the specs are executed.
+
+In the `onPrepare` function we are also defining some specific `jasmine-spec-reporter` configurations for better test reporting.
 
 #### jasmineNodeOpts
 
 By default, protractor uses [Jasmine](https://jasmine.github.io) as a base framework.
-In the `jasmineNodeOpts` configuration we are setting the `"defaultTimeoutInterval"` to `10000` milliseconds. We are basically overwriting the default configuration that is `30000` milliseconds, once the tests that will will write are very fast tests, and in case of timing issues, we don't want to make a test case wait 30 seconds before failing.
+In the `jasmineNodeOpts` configuration we are setting the `"defaultTimeoutInterval"` to `10000` milliseconds. We are basically overwriting the default configuration that is `30000` milliseconds, once the tests that we will write are meant to be very fast, and in case of timing issues, we don't want to make a test case wait 30 seconds before failing.
 
 ### NPM test script
 
 To ease running the tests we will use npm scripts.
 
-From the project's root directory, update the `package.json` file with the following code, right after the project's description:
+From the project's root directory, update the `package.json` file with the following code, right below the project's description:
 
 ```
 "scripts": {
@@ -201,7 +214,7 @@ Finished in 0.001 seconds
 
 Also, while the npm script is running, you should see the Chrome browser being automatically opened and closed.
 
-And with this we finish lesson 0. Move to lesson 1 to create the first test! =)
+And with this we finish lesson 0. Move on to lesson 1 to create the first test.
 
 ## Lesson 1 - First test
 
@@ -213,4 +226,4 @@ And with this we finish lesson 0. Move to lesson 1 to create the first test! =)
 
 ## Lesson 5 - Separating tests
 
-## Summary and concluding thoughts
+## Summary
