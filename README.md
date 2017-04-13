@@ -18,9 +18,17 @@ When talking about WebRTC apps, we need to keep in mind that the core of such ap
 
 ## Code lab structure
 
-Each lesson in this code lab is already solved in its specific directory, but we will create it from scratch in the project's root directory, and you can check the final solution for each lesson if you need.
+Each lesson in this code lab is already solved in its specific directory, but we will create it from scratch in the project's root directory, and you can check the final solution for each lesson in case of doubts.
 
-Note: You can find all lessons inside the directory named as this.
+Note: You can find all lessons inside this [directory](https://github.com/wlsf82/protractor-and-webrtc/tree/master/lessons).
+
+In this code lab you will be able to:
+
+- [Setup the application under test (AUT)](https://github.com/wlsf82/protractor-and-webrtc#lesson-0---setup)
+- [Create the first end-to-end test for the AUT](https://github.com/wlsf82/protractor-and-webrtc#lesson-1---first-test)
+- Create more tests and organize them using best practices
+- Learn how to create tests that simulate real usage of WebRTC apps
+- Find other useful resources to keep learning about end-to-end tests for web apps
 
 ## Sample application
 
@@ -33,7 +41,7 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 - Basic knowledge of JavaScritp
 - Computer with camera (app requirement)
 - Node.js v6.x+ (use this URL to download Node.js in case you don't have it yet: https://nodejs.org/)
-- Chrome (due to WebRTC compatibility)
+- Chrome browser (due to WebRTC compatibility)
 
 ## Lesson 0 - Setup
 
