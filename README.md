@@ -534,7 +534,7 @@ Since now the base URL of the application is defined in the protractor configura
 
 > **Suggestion:** Change the code in the `beforeEach` function passing a room name as a string (e.g.: `browser.get("my-room");`), run the tests and see the tests visiting the room you specified instead of the random generated room.
 
-Now we already have a good first test suite for the basic things of our sample application and it is time to start creating some test cases that will simulate the usage of the app with more real use cases and more interaction. Move on to the next lesson.
+Now we already have a good first test suite for the basic things of our sample application and it is time to start creating some test cases that will simulate the usage of the app with more real use cases and more interaction. Let's move on to the next lesson.
 
 ## Lesson 3 - Two browsers (first test)
 
