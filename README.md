@@ -532,7 +532,9 @@ Then update the `spec.js` file and upate the code inside the `beforeEach` functi
 
 Since now the base URL of the application is defined in the protractor configuration file, the step that visits the web page can use the relative path, instead of the absolute one, and once we are visiting the home page and the app creates the room name automatically for us, we can just pass an empty string.
 
-> **Suggestion:** Change the code in the `beforeEach` function passing a room name as a string (e.g.: `browser.get("my-room");`), run the tests and see the tests visiting the room you specified instead of the random generated room.
+> **Suggestion:** Change the code in the `beforeEach` function passing a room name as a string (e.g.: `browser.get("#my-room");`), run the tests and see the tests visiting the room you specified instead of the random generated room.
+
+> Note: If you specify the room name, it needs to start with the `#` symbol.
 
 Now we already have a good first test suite for the basic things of our sample application and it is time to start creating some test cases that will simulate the usage of the app with more real use cases and more interaction. Let's move on to the next lesson.
 
