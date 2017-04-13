@@ -2,13 +2,13 @@
 
 This project is a code lab to teach the basics for creating end-to-end tests with [Protractor](http://www.protractortest.org/#/) for [WebRTC](http://webrtc.org/) applications.
 
-Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-Angular apps as well, as will be shown in this code lab.
+Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-AngularJS apps as well, as will be shown in this code lab.
 
 With Protractor, tests are executed against web applications running in real browsers, interacting with it as users would.
 
 WebRTC stands from Web Real Time Communication, and it is very important to test such applications in an end-to-end way.
 
-Create end-to-end tests for real time communication apps is not exactly the same as it is for other kind of apps, where all the tests can run in a single instance of a browser.
+Creating end-to-end tests for real time communication apps is not exactly the same as it is for other kind of apps, where all the tests can run in a single instance of browser.
 
 When talking about WebRTC apps, we need to keep in mind that the core of such application is communication, and this means that clients in two or more browsers will be interacting with each other using the app, so, automated tests needs to ensure that the correct behavior is happening for real use cases.
 
@@ -24,7 +24,7 @@ We will use a sample WebRTC application based on the following Google's code lab
 
 Note: there is no need to clone the app from the Google's code lab, since this is already part of this project, with minor modifications.
 
-### Pre-requirements
+## Pre-requirements
 
 - Basic knowledge of JavaScritp
 - Computer with camera (app requirement)
@@ -47,22 +47,23 @@ After cloning the project, from root directory where it was downloaded, run the 
 
 `npm i`
 
-This command will basically install the project dependencies defined in the `package.json`.
+This command will basically install the project dependencies defined in the `package.json` file.
 
 With all the dependencies installed, you can already start the app to test it out.
 
 ### Starting the app
 
-This WebRTC sample application is based on Node.js. This means that node will be used to start it.
-From project's root directory, run the below command to start the app:
+This WebRTC sample application is based on Node.js, this means that node will be used to start it.
+
+From the project's root directory, run the below command to start the app:
 
 `node inde.jx`
 
-With the app running, open one of the compatible browsers and type the following URL: http://localhost:8080
+With the app running, open the Chrome browser and type the following URL: http://localhost:8080
 
-If everything went ok, you should the WebRTC Sample app.
+If everything went ok, you should see the WebRTC Sample app.
 
-Note: This app requires camera access, so in the first time you access it, you may allow the browser to access your computer's camera.
+Note: This app requires camera access, so, in the first time you access it, you may allow the browser to access your computer's camera.
 
 After allowing the browser to access the camera, you should see yourself in the app.
 
@@ -72,7 +73,7 @@ Now that everything is working, it's time to install protractor, so that you can
 
 Protractor is also Node.js based, so we will use npm (node package manager) to install it.
 
-From the project's root directory, run the bellow command:
+From the project's root directory (in another console's tab), run the bellow command:
 
 `npm i protractor@5.0.0 -D`
 
