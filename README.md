@@ -4,8 +4,6 @@
 
 This project is a code lab to teach the basics for creating end-to-end tests with [Protractor](http://www.protractortest.org/#/) for [WebRTC](http://webrtc.org/) applications.
 
-![WebRTC Sample app during end-to-end test execution](https://s3-sa-east-1.amazonaws.com/helloworld-wlsf82/webrtc-sample.png)
-
 Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-AngularJS apps as well, as will be shown in this code lab.
 
 With Protractor, tests are executed against web applications running in real browsers, interacting with it as users would.
@@ -33,6 +31,8 @@ In this code lab you will be able to:
 ## Sample application
 
 We will use a sample WebRTC application based on the following Google's code lab for all lessons: https://codelabs.developers.google.com/codelabs/webrtc-web/#8.
+
+![WebRTC Sample app during end-to-end test execution](https://s3-sa-east-1.amazonaws.com/helloworld-wlsf82/webrtc-sample.png)
 
 Note: there is no need to clone the app from the Google's code lab, since this is already part of this project, with minor modifications.
 
