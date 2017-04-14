@@ -596,6 +596,8 @@ Finished in 7.264 seconds
 [14:36:27] I/launcher - chrome #01 passed
 ```
 
+Yay! 10 test cases running in 7 seconds and we are covering the most important scenarios of the application.
+
 ## Lesson 4 - Structuring the tests
 
 ## Summary and other resources
