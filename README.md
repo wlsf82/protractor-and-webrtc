@@ -25,7 +25,7 @@ In this code lab you will be able to:
 - [Setup the application under test (AUT)](https://github.com/wlsf82/protractor-and-webrtc#lesson-0---setup)
 - [Create the first end-to-end test for the AUT](https://github.com/wlsf82/protractor-and-webrtc#lesson-1---first-test)
 - [Create more tests and organize them using best practices](https://github.com/wlsf82/protractor-and-webrtc#lesson-2---page-object-and-new-tests)
-- [Learn how to create tests that simulate real usage of WebRTC apps](https://github.com/wlsf82/protractor-and-webrtc#lesson-3---two-browsers)
+- [Create tests that simulate real usage of WebRTC apps](https://github.com/wlsf82/protractor-and-webrtc#lesson-3---two-browsers)
 - [Structure the tests](https://github.com/wlsf82/protractor-and-webrtc#lesson-4---structuring-the-tests)
 - [Find useful resources to keep learning about end-to-end tests for web applications](https://github.com/wlsf82/protractor-and-webrtc#summary-and-other-resources)
 
@@ -41,7 +41,7 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 
 - Basic knowledge of JavaScritp
 - Computer with camera (app requirement)
-- Node.js v6.x+ (use this URL to download Node.js in case you don't have it yet: https://nodejs.org/)
+- Node.js v6.x+ (use the following URL to download Node.js in case you don't have it yet: https://nodejs.org/)
 - Chrome browser (due to WebRTC compatibility)
 
 ## Lesson 0 - Setup
@@ -598,6 +598,6 @@ Finished in 7.264 seconds
 
 Yay! 10 test cases running in 7 seconds and we are covering the most important scenarios of the application.
 
-## Lesson 4 - Structuring the tests
+## Lesson 4 - Structuring tests
 
 ## Summary and other resources
