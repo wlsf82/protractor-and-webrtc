@@ -103,7 +103,7 @@ describe("WebRTC Sample - one client", () => {
         const browser3 = webrtcSample.openNewBrowserInTheSameRoom(browser);
 
         browser3.ignoreSynchronization = true;
-        // There is not expectation in this test, but the below step will fail if no alert is displayed.
+        // There is no expectation in this test, but the below step will fail if no alert is displayed.
         browser3.switchTo().alert().accept();
         browser2.quit();
         browser3.quit();
