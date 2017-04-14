@@ -26,8 +26,8 @@ In this code lab you will be able to:
 - [Create the first end-to-end test for the AUT](https://github.com/wlsf82/protractor-and-webrtc#lesson-1---first-test)
 - [Create more tests and organize them using best practices](https://github.com/wlsf82/protractor-and-webrtc#lesson-2---page-object-and-new-tests)
 - [Learn how to create tests that simulate real usage of WebRTC apps](https://github.com/wlsf82/protractor-and-webrtc#lesson-3---two-browsers)
-- Structure the tests
-- Find useful resources to keep learning about end-to-end tests for web applications
+- [Structure the tests](https://github.com/wlsf82/protractor-and-webrtc#lesson-4---structuring-the-tests)
+- [Find useful resources to keep learning about end-to-end tests for web applications](https://github.com/wlsf82/protractor-and-webrtc#summary-and-other-resources)
 
 ## Sample application
 
@@ -549,7 +549,7 @@ With this WebRTC Sample application it is possible to take snaps and send to the
 
 ### Create new tests with more interaction
 
-The idea is create test cases for the following scenarios:
+The idea is create test cases to the following scenarios:
 
 - Check that incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
 - Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
@@ -561,7 +561,7 @@ Note: For all the above mentioned test cases both clients/browsers will be in th
 
 ### Running the complete test suite
 
-Now that we have a test suite with test cases for all the main elements in the page and also for real use cases of the app it's time to see them running.
+Now that we have a test suite with test cases for all the main elements in the page and also for real use cases of the app, it's time to see them running.
 
 Use the below command to run the tests:
 
@@ -596,6 +596,6 @@ Finished in 7.264 seconds
 [14:36:27] I/launcher - chrome #01 passed
 ```
 
-## Lesson 4 - Separating tests
+## Lesson 4 - Structuring the tests
 
 ## Summary and other resources
