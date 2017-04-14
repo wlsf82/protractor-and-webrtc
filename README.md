@@ -536,15 +536,13 @@ Since now the base URL of the application is defined in the protractor configura
 
 > Note: If you specify the room name, it needs to start with the `#` symbol.
 
-Now we already have a good first test suite for the basic things of our sample application and it is time to start creating some test cases that will simulate the usage of the app with more real use cases and more interaction. Let's move on to the next lesson.
+Now that we have a good test suite for the basic things of our sample application it is time to create some test cases for real use cases. Let's move on to the next lesson.
 
-## Lesson 3 - Two browsers (first test)
+## Lesson 3 - Two browsers
 
 You may have noticed that so far all the tests are only navigating to the application under test and doing verifications, no other interaction is being done, and this is what we will see next.
 
 ### Create new tests with more interaction
-
-## Lesson 4 - Two browsers (other tests)
 
 ## Lesson 5 - Separating tests
 
