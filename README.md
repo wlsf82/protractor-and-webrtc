@@ -33,9 +33,9 @@ In this code lab you will be able to:
 
 We will use a sample WebRTC application based on the following Google's code lab for all lessons: https://codelabs.developers.google.com/codelabs/webrtc-web/#8.
 
-![WebRTC Sample app during end-to-end test execution](https://s3-sa-east-1.amazonaws.com/helloworld-wlsf82/webrtc-sample.png)
-
 Note: there is no need to clone the app from the Google's code lab, since this is already part of this project, with minor modifications.
+
+![WebRTC Sample app during end-to-end test execution](https://s3-sa-east-1.amazonaws.com/helloworld-wlsf82/webrtc-sample.png)
 
 ## Pre-requirements
 
