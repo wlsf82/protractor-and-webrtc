@@ -540,10 +540,61 @@ Now that we have a good test suite for the basic things of our sample applicatio
 
 ## Lesson 3 - Two browsers
 
-You may have noticed that so far all the tests are only navigating to the application under test and doing verifications, no other interaction is being done, and this is what we will see next.
+You may have noticed that so far all the tests are only navigating to the application under test and performning verifications. There is no other interaction and the application is not being used as real users would do.
+
+For simulating real usage of the application we will need to create tests where two browsers will navigate to the same room and will interact with each other.
+
+With this WebRTC Sample application it is possible to take snaps and send to the other client in the same room, and this is what we are going to do now.
 
 ### Create new tests with more interaction
 
-## Lesson 5 - Separating tests
+The idea is create test cases for the following scenarios:
 
-## Summary
+- Check that incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
+- Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
+- Check that incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
+- Check that incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photos
+- Check that an alert is shown when two clients are in the same room and a third one tries to join
+
+Note: For all the above mentioned test cases both clients/browsers will be in the same room
+
+### Running the complete test suite
+
+Now that we have a test suite with test cases for all the main elements in the page and also for real use cases of the app it's time to see them running.
+
+Use the below command to run the tests:
+
+`npm test`
+
+If everything went ok, you should see a result like this:
+
+```
+Spec started
+Started
+
+  WebRTC Sample - one client
+    ✓ should show title
+.    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
+.    ✓ should show header for incoming photos
+.    ✓ should autoplay video be enabled
+.    ✓ should have the same room name on url and when returning it on console
+.    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room
+.    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
+.    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room
+.    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
+.    ✓ should show an alert meaning that the room is full when a third client tries to join
+.
+Executed 10 of 10 specs SUCCESS in 7 secs.
+
+
+
+10 specs, 0 failures
+Finished in 7.264 seconds
+[14:36:27] I/local - Shutting down selenium standalone server.
+[14:36:27] I/launcher - 0 instance(s) of WebDriver still running
+[14:36:27] I/launcher - chrome #01 passed
+```
+
+## Lesson 4 - Separating tests
+
+## Summary and other resources
