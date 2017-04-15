@@ -273,7 +273,7 @@ Then add the following code snippet to the just created file (every part of the 
 
 describe("WebRTC Sample", () => {
     it("should show title", () => {
-        browser.get("http://localhost:8080");
+        return browser.get("http://localhost:8080");
 
         expect(browser.getTitle()).toEqual("WebRTC Sample");
         expect(element(by.css("h1")).getText()).toEqual("WebRTC Sample");
@@ -289,7 +289,7 @@ Then we define an `it` statement. This statement also receives a string as the f
 
 And finally we define the steps for the test to run.
 
-The `browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the Protractor configuration file.
+The `return browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the Protractor configuration file.
 
 Then we have two expectations, one to check that the title of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same `"WebRTC Sample"` text on it.
 
@@ -401,7 +401,7 @@ describe("WebRTC Sample - one client", () => {
     const webrtcSample = new WebrtcSample();
 
     it("should show title", () => {
-        browser.get("http://localhost:8080");
+        return browser.get("http://localhost:8080");
 
         expect(browser.getTitle()).toEqual("WebRTC Sample");
         expect(webrtcSample.title.getText()).toEqual("WebRTC Sample");
@@ -436,7 +436,7 @@ describe("WebRTC Sample - one client", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
-        browser.get("http://localhost:8080");
+        return browser.get("http://localhost:8080");
     });
 
     it("should show title", () => {
@@ -569,7 +569,7 @@ Update the `protractor.conf.js` file adding the following new configuration, rig
 
 Then update the `spec.js` file by changing the code inside the `beforeEach` function to look like this:
 
-`browser.get("");`
+`return browser.get("");`
 
 Since now the base URL of the application is defined in the Protractor configuration file, the step that visits the web page can use the relative path, instead of the absolute one, and once we are visiting the home page and the app creates the room name automatically for us, we can just pass an empty string.
 

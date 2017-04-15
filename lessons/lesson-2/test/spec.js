@@ -6,7 +6,7 @@ describe("WebRTC Sample - one client", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
-        browser.get("");
+        return browser.get("");
     });
 
     it("should show title", () => {
