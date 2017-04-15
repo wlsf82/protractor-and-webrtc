@@ -8,7 +8,7 @@ Protractor is an end-to-end test framework for AngularJS applications, but it ca
 
 With Protractor, tests are executed against web applications running in real browsers, interacting with it as users would.
 
-WebRTC stands from Web Real Time Communication, and it is very important to test such applications in an end-to-end way.
+WebRTC stands from Web Real Time Communication. It is an open source project to enable realtime communication of audio, video and data in native and web apps, and it is very important to test such applications in an end-to-end way.
 
 Creating end-to-end tests for real time communication apps is not exactly the same as it is for other kind of apps, where all the tests can run in a single instance of browser.
 
@@ -350,7 +350,7 @@ Again, we are using `"use strict;"` due to ECMAScript 2015 syntax.
 
 Then we are defining a `WebrtcSample` class and this class has a constructor that exposes publicly (using `this`) different web elements from the application under test.
 
-Some of the elements are defined using a css selector:
+Some of the elements are defined using css selectors:
 
 > `this.title = element(by.css("h1"));`
 > `this.incomingPhotosTitle = element(by.css("h2"));`
@@ -389,11 +389,11 @@ describe("WebRTC Sample - one client", () => {
 
 Note that right after the `"use strict;"` statement we are requiring the just create Page Object and storing it in a variable called `WebrtcSample`.
 
-Note that we are also instantiating a new instance of the `WebrtcSample` class and storing it in a variable called `webrtcSample`
+Note that we are also creating a object, based on the `WebrtcSample` class, and we're storing it in a variable called `webrtcSample`
 
-Note: We use upper camel case for the class name and lower camel case for the object creation.
+Note: We use upper camel case for the class name and lower camel case for the object name.
 
-Finally, note that in the second expectation, instead of defining the element directly in the test, we are now using the just instantiated object, and getting the text of the `title` element of this Page Object for comparing the our expectation (`.toEqual("WebRTC Sample");`).
+Finally, note that in the second expectation, instead of defining the element directly in the test, we are now using the just instantiated object, and getting the text of the `title` element of this Page Object for comparing to our expectation (`.toEqual("WebRTC Sample");`).
 
 > Using Page Objects not only helps on maintainability, but also on readability.
 
@@ -445,11 +445,27 @@ One of the new tests verify that some main elements of the application are displ
 
 ### Create some low level test cases
 
-Some times, when creating tests for WebRTC applications we may need to check some informations that may not be available to the final users, but that may be available to the browser where the application is running. This will be the focus of the new tests that we will create.
+Some times, when creating tests for WebRTC applications we may need to check some informations that may not be available to the final users, but that may be available to the browser where the application is running.
+
+Some examples of these verifications can be:
+
+- Verifying that stream is active
+- Verifying that video autoplay is enabled
+- Verifying signaling connection
+- Verifying video tracking
+- Etc
+
+This kind of verifications will be the focus of the new tests that we will create.
 
 Update the `spec.js` file with the following new tests:
 
 ```
+it("should stream be active", () => {
+    const isStreamActive = browser.executeScript("return window.stream.active;");
+
+    expect(isStreamActive).toBe(true);
+});
+
 it("should autoplay video be enabled", () => {
     const isVideoAutoplayEnabled = browser.executeScript("const video = document.getElementById('camera'); return video.autoplay;");
 
@@ -463,12 +479,13 @@ it("should have the same room name on url and when returning it on console", () 
     expect(roomNameFromUrl).toEqual(oomNameFromConsole);
 });
 ```
+The first new test store in a variable called `isStreamActive` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that stream is active.
 
-The first new test store in a variable called `isVideoAutoplayEnabled` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that video autoplay is enabled.
+The second new test store in a variable called `isVideoAutoplayEnabled` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that video autoplay is enabled.
 
-This is a powerful option of Protractor and it may be very useful when testing WebRTC applications.
+This is a powerful option of Protractor and it may be very useful when testing WebRTC applications, since you can check that many things that happen in the background are working fine when when simulating the real use of the application.
 
-Now let's update the Page Object file, before the explanation of the second new test.
+Now let's update the Page Object file before the explanation of the third new test.
 
 Add the following method to the `WebrtcSample` class, right below the `constructor` definition:
 
@@ -483,7 +500,7 @@ getRoomNameFromUrl() {
 
 This method will basically return the room name generated when visiting the home page of the WebRTC Sample application, directly from the URL.
 
-Now you can revisit the second new test and note that:
+Now you can revisit the third new test and note that:
 
 - It stores in a variable called `roomNameFromUrl` the room name returned by the just created method in the Page Object.
 - It also stores in a variable called `roomNameFromConsole` the value of room name, but now from the console. Think of this as a information that is in the background, not visually available for the final user.
@@ -505,18 +522,19 @@ Started
     ✓ should show title
 .    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
 .    ✓ should show header for incoming photos
+.    ✓ should stream be active
 .    ✓ should autoplay video be enabled
 .    ✓ should have the same room name on url and when returning it on console
 .
-Executed 5 of 5 specs SUCCESS in 0.729 sec.
+Executed 6 of 6 specs SUCCESS in 0.86 sec.
 
 
 
-5 specs, 0 failures
-Finished in 0.729 seconds
-[22:32:23] I/local - Shutting down selenium standalone server.
-[22:32:23] I/launcher - 0 instance(s) of WebDriver still running
-[22:32:23] I/launcher - chrome #01 passed
+6 specs, 0 failures
+Finished in 0.86 seconds
+[17:59:25] I/local - Shutting down selenium standalone server.
+[17:59:25] I/launcher - 0 instance(s) of WebDriver still running
+[17:59:25] I/launcher - chrome #01 passed
 ```
 
 ### Bonus
@@ -527,7 +545,7 @@ Update the `protractor.conf.js` file adding the following new configuration, rig
 
 `"baseUrl": "http://localhost:8080",`
 
-Then update the `spec.js` file and upate the code inside the `beforeEach` function to look like this:
+Then update the `spec.js` file by changing the code inside the `beforeEach` function to look like this:
 
 `browser.get("");`
 
@@ -541,13 +559,13 @@ Now that we have a good test suite for the basic things of our sample applicatio
 
 ## Lesson 3 - Two browsers
 
-You may have noticed that so far all the tests are only navigating to the application under test and performning verifications. There is no other interaction and the application is not being used as real users would do.
+You may have noticed that so far all the tests are only navigating to the application under test and performing verifications. There is no other interaction and the application is not being used as real users would do.
 
 For simulating real usage of the application we will need to create tests where two browsers will navigate to the same room and will interact with each other.
 
 With this WebRTC Sample application it is possible to take snaps and send to the other client in the same room, and this is what we are going to do now.
 
-### Create new tests with more interaction
+### Defining the test cases
 
 The idea is create test cases to the following scenarios:
 
@@ -558,6 +576,145 @@ The idea is create test cases to the following scenarios:
 - Check that an alert is shown when two clients are in the same room and a third one tries to join
 
 Note: For all the above mentioned test cases both clients/browsers will be in the same room
+
+### Create new tests with more interaction
+
+First of all, update the `spec.js` file with the below code, right below the `"use strict"` statement, and before requiring the Page Object:
+
+```
+const DEFAULT_TIMEOUT = 5000;
+const EC = protractor.ExpectedConditions;
+```
+
+In the above code we are basically defining a constant called `DEFAULT_TIMEOUT` with the value of `5000` milliseconds, because we will use this exact same value for some of the new test cases.
+
+We are also storing in a variable called `EC` the `protractor.ExpectedConditions`, that are used together with `browser.wait` and with the timeout, to wait for elements being in a specific state, for example, before interacting or performing verifications with them.
+
+Then, update the same file with the below new test cases (they will all be explained in details later):
+
+```
+it("should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    webrtcSample.snapAndSendButton.click();
+    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+
+    expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+
+    browser2.quit();
+});
+
+it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    webrtcSample.snapAndSendButton.click();
+    webrtcSample.snapAndSendButton.click();
+    browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+
+    expect(incomingPhotosOnBrowser2.count()).toBe(2);
+
+    browser2.quit();
+});
+
+it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    webrtcSample.snapButton.click();
+    webrtcSample.sendButton.click();
+    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+
+    expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+
+    browser2.quit();
+});
+
+it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    webrtcSample.snapAndSendButton.click();
+    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+    browser2.refresh();
+
+    expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
+
+    browser2.quit();
+});
+
+it("should show an alert meaning that the room is full when a third client tries to join", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+
+    browser2.ignoreSynchronization = true;
+
+    const browser3 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+
+    browser3.ignoreSynchronization = true;
+    // There is no expectation in this test, but the below step will fail if no alert is displayed.
+    browser3.switchTo().alert().accept();
+    browser2.quit();
+    browser3.quit();
+});
+```
+
+Finally, update the `webrtcSample.po.js` file adding the following new methods (they will all be explained as well):
+
+```
+openNewBrowserInTheSameRoom(browser) {
+    return browser.forkNewDriverInstance(true);
+}
+
+getFirstIncomingPhotoOnBrowser2(browser2) {
+    const element2 = browser2.element;
+
+    return element2(by.css("#trail canvas"));
+}
+
+getIncomingPhotosOnBrowser2(browser2) {
+    const element2 = browser2.element;
+
+    return element2.all(by.css("#trail canvas"));
+}
+```
+
+These new methods are used to (in this order):
+
+- Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will be in the same URL of the browser base)
+- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that an `element2` element is stored in the variable, for being used to locate elements in the second browser)
+- Return all the incoming photos from `browser2` (the same logic of the previous method is applied here)
+
+Now let's understand the new test cases.
+
+I'll explain the fourth first new test cases together, since they are very similar.
+
+All the just mentioned test cases have the following in common:
+
+- They store in a variable called `browser2` the new opened browser
+- They store the `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification
+- They set `browser2.ignoreSynchronization` equal to `true`, since protractor needs to know that the application is the second browser is also a non-AngularJS app
+- They perform on or more clicks in the `snapAndSendButton`, `snapButton` and `sendButton`
+- They wait for a maximum of 5000 milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible
+- Specifically for the fourth new test case the browser is refreshed
+- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that the count of `incomingPhotosOnBrowser2` is equal to `2` when `snap & send` is clicked twice; verifying that now incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page
+- And lastly, `browser2` is closed, using the `quit()` function, since protractor only knows that it has to automatically closes the first browser.
+
+And the last new test cases basically:
+
+- Opens a new browser in the same room of the first browser
+- Calls `browser2.ignoreSynchronization = true` (non-AngularJS app)
+- Does the same two steps for a third browser
+- Swiths to an expected alert and clicks ok (accpet it)
+- And both two new browsers (`browser2` and `browser3` are closed using the `quit()` function)
+
+Note that for the last new test case there is no verification, but if the alert is not displayed, the test will fail, so this is ok.
+
+Now, let's run our updated test suite.
 
 ### Running the complete test suite
 
@@ -577,6 +734,7 @@ Started
     ✓ should show title
 .    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
 .    ✓ should show header for incoming photos
+.    ✓ should stream be active
 .    ✓ should autoplay video be enabled
 .    ✓ should have the same room name on url and when returning it on console
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room
@@ -585,19 +743,17 @@ Started
 .    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
 .    ✓ should show an alert meaning that the room is full when a third client tries to join
 .
-Executed 10 of 10 specs SUCCESS in 7 secs.
+Executed 11 of 11 specs SUCCESS in 7 secs.
 
 
 
-10 specs, 0 failures
-Finished in 7.264 seconds
-[14:36:27] I/local - Shutting down selenium standalone server.
-[14:36:27] I/launcher - 0 instance(s) of WebDriver still running
-[14:36:27] I/launcher - chrome #01 passed
+11 specs, 0 failures
+Finished in 7.23 seconds
+[18:07:48] I/local - Shutting down selenium standalone server.
+[18:07:48] I/launcher - 0 instance(s) of WebDriver still running
+[18:07:48] I/launcher - chrome #01 passed
 ```
 
-Yay! 10 test cases running in 7 seconds and we are covering the most important scenarios of the application.
-
-## Lesson 4 - Structuring tests
+Yay! 11 test cases running in 7 seconds and we are covering the most important scenarios of the application. Congratulations!
 
 ## Summary and other resources
