@@ -59,20 +59,6 @@ describe("WebRTC Sample - one client", () => {
         browser2.quit();
     });
 
-    it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
-        const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-        const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
-
-        browser2.ignoreSynchronization = true;
-        webrtcSample.snapAndSendButton.click();
-        webrtcSample.snapAndSendButton.click();
-        browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
-
-        expect(incomingPhotosOnBrowser2.count()).toBe(2);
-
-        browser2.quit();
-    });
-
     it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room", () => {
         const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
         const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
@@ -99,6 +85,22 @@ describe("WebRTC Sample - one client", () => {
         expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
 
         browser2.quit();
+    });
+
+    it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
+        const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+        const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
+
+        browser2.ignoreSynchronization = true;
+        webrtcSample.snapAndSendButton.click().then(() => {
+            webrtcSample.snapAndSendButton.click().then(() => {
+                browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+
+                expect(incomingPhotosOnBrowser2.count()).toBe(2);
+
+                browser2.quit();
+            });
+        });
     });
 
     it("should show an alert meaning that the room is full when a third client tries to join", () => {

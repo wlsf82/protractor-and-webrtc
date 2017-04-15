@@ -599,9 +599,9 @@ With this WebRTC Sample application it is possible to take snaps and send to the
 The idea is create test cases to the following scenarios:
 
 - Check that incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
-- Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
 - Check that incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
 - Check that incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photos
+- Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
 - Check that an alert is shown when two clients are in the same room and a third one tries to join
 
 Note: For all the above mentioned test cases both clients/browsers will be in the same room
@@ -635,20 +635,6 @@ it("should show incoming photo on browser 2 when browser 1 clicks 'snap & send' 
     browser2.quit();
 });
 
-it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
-    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-    const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
-
-    browser2.ignoreSynchronization = true;
-    webrtcSample.snapAndSendButton.click();
-    webrtcSample.snapAndSendButton.click();
-    browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
-
-    expect(incomingPhotosOnBrowser2.count()).toBe(2);
-
-    browser2.quit();
-});
-
 it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room", () => {
     const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
@@ -673,6 +659,20 @@ it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & se
     browser2.refresh();
 
     expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
+
+    browser2.quit();
+});
+
+it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    webrtcSample.snapAndSendButton.click();
+    webrtcSample.snapAndSendButton.click();
+    browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+
+    expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
     browser2.quit();
 });
@@ -720,20 +720,26 @@ These new methods are used to (in this order):
 
 Now let's understand the new test cases.
 
-I'll explain the fourth first new test cases together, since they are very similar.
+I'll explain the third first new test cases together, since they are very similar.
 
 All the just mentioned test cases have the following in common:
 
 - They store in a variable called `browser2` the new opened browser
 - They store the `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification
 - They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application is the second browser is also a non-AngularJS app
-- They perform on or more clicks in the `snapAndSendButton`, `snapButton` and `sendButton`
+- They perform clicks in the `snapAndSendButton`, `snapButton` and `sendButton`
 - They wait for a maximum of 5000 milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible
-- Specifically for the fourth new test case the browser is refreshed
-- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that the count of `incomingPhotosOnBrowser2` is equal to `2` when `snap & send` is clicked twice; verifying that now incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page
-- And lastly, `browser2` is closed, using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
+- Specifically for the third new test case the browser is refreshed
+- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page
+- And lastly, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
 
-And the last new test cases basically:
+The fourth new test is a bit different.
+
+- It also stores in a variable called `browser2` the new opened browser, it stores the `incomingPhotosOnBrowser2`, and it also uses `browser2.ignoreSynchronization = true;`
+- But when clicking `snapAndSendButton` in the first browser for the first time, it calls the `.then` function, since the click returns a promise, then it performs the second click in the same button and calls the `.then` function again
+- And finally it waits for the visibility of the last incoming photo, does the expectation that the number of incoming photos is `2`, and quits `browser2`.
+
+And the last new test case basically:
 
 - Opens a new browser in the same room of the first browser
 - Calls `browser2.ignoreSynchronization = true` (non-AngularJS app)
@@ -767,9 +773,9 @@ Started
 .    ✓ should autoplay video be enabled
 .    ✓ should have the same room name on url and when returning it on console
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room
-.    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room
 .    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
+.    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
 .    ✓ should show an alert meaning that the room is full when a third client tries to join
 .
 Executed 11 of 11 specs SUCCESS in 7 secs.
