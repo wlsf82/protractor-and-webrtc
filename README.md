@@ -772,6 +772,32 @@ Finished in 7.23 seconds
 [18:07:48] I/launcher - chrome #01 passed
 ```
 
-Yay! 11 test cases running in 7 seconds and we are covering the most important scenarios of the application. Congratulations!
+Yay! 11 test cases running in 7 seconds and we are covering the most important scenarios of the application.
 
 ## Summary and other resources
+
+Congratulations! You now know to how create end-to-end test with Protractor for WebRTC applications.
+
+In this code lab you learned:
+
+- How to configure protractor for running end-to-end tests on WebRTC applications
+- How to create basic end-to-end automated tests (high and low level)
+- How to use Page Objets for better organizing tests
+- How to create automated tests where two browsers interact with each other
+
+### List of resources for keep learning
+
+This code lab is just a bit of what you can do for testing WebRTC and other kind of web applications with Protractor.
+
+To keep learning about this subject, I'd like to share with you some other content resources that may be useful:
+
+[End to end testing with Protractor](https://leanpub.com/end-to-end-testing-with-protractor) book
+
+[Protractor](https://www.casadocodigo.com.br/products/livro-protractor) book - Portuguese version of the above book
+
+[Talking About Testing blog](https://talkingabouttesting.com/category/protractor-2/) - content is Portuguese (use [Google Translator!](https://translate.google.com))
+
+[Learning Protractor](https://www.youtube.com/playlist?list=PL-eblSNRj0QEvVfKp0Xzagao9SqaSyW5k) - hands on videos on Youtube with Portuguese content about Protractor in general
+___
+
+Keep learning, keep testing!
