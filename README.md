@@ -316,9 +316,21 @@ Now, let's move on to the next lesson to create some new tests and to organize t
 
 ## Lesson 2 - Page Object and new tests
 
+In this lesson you will learn:
+
+- How to create Page Object for helping on code maintainability and readability
+  - How to expose application elements
+  - How to expose Page Object methods
+- How to update already existing tests to use Page Objects
+- And how to create new test cases (high and low level) using Page Objects
+
+### Page Objects brief introduction
+
 Before creating the new tests we will create a Page Object file to store some specific elements from the main page of the application under test.
 
 Page Objects help on writing cleaner tests by encapsulating information about the elements on the application page. A Page Object can be reused across multiple tests, and if the template of your application changes, you only need to update the Page Object.
+
+Page objects are also helpful for encapsulating methods that may be used in the tests, mainly when more than one step is necessary, which helps on avoiding code duplication.
 
 ### Page Object creation
 
@@ -558,11 +570,18 @@ Now that we have a good test suite for the basic things of our sample applicatio
 
 ## Lesson 3 - Two browsers
 
+In this lesson you will learn:
+
+- How to create tests where two browsers interact with each other
+- How to create other Page Object methods that may be useful for tests with two or more browsers
+
+### Brief introduction to real use cases of WebRTC applications
+
 You may have noticed that so far all the tests are only navigating to the application under test and performing verifications. There is no other interaction and the application is not being used as real users would do.
 
 For simulating real usage of the application we will need to create tests where two browsers will navigate to the same room and will interact with each other.
 
-With this WebRTC Sample application it is possible to take snaps and send to the other client in the same room, and this is what we are going to do now.
+With this WebRTC Sample application it is possible to take snaps and send to the other client in the same room, and this is what we are going to do.
 
 ### Defining the test cases
 
