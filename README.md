@@ -668,13 +668,15 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapAndSendButton.click();
-    webrtcSample.snapAndSendButton.click();
-    browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+    webrtcSample.snapAndSendButton.click().then(() => {
+        webrtcSample.snapAndSendButton.click().then(() => {
+            browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
 
-    expect(incomingPhotosOnBrowser2.count()).toBe(2);
+            expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
-    browser2.quit();
+            browser2.quit();
+        });
+    });
 });
 
 it("should show an alert meaning that the room is full when a third client tries to join", () => {
