@@ -4,7 +4,7 @@ const DEFAULT_TIMEOUT = 5000;
 const EC = protractor.ExpectedConditions;
 const WebrtcSample = require("./webrtcSample.po");
 
-describe("WebRTC Sample - one client", () => {
+describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {

@@ -2,7 +2,7 @@
 
 const WebrtcSample = require("./webrtcSample.po");
 
-describe("WebRTC Sample - one client", () => {
+describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {

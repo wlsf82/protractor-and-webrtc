@@ -397,7 +397,7 @@ Change the code of the already existing test to look like this (the code will be
 
 const WebrtcSample = require("./webrtcSample.po");
 
-describe("WebRTC Sample - one client", () => {
+describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     it("should show title", () => {
@@ -432,7 +432,7 @@ Update the `spec.js` file with the following new code:
 
 const WebrtcSample = require("./webrtcSample.po");
 
-describe("WebRTC Sample - one client", () => {
+describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
@@ -540,7 +540,7 @@ An output like this should be displayed in the console:
 Spec started
 Started
 
-  WebRTC Sample - one client
+  WebRTC Sample
     ✓ should show title
 .    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
 .    ✓ should show header for incoming photos
@@ -765,7 +765,7 @@ If everything went ok, you should see a result like this:
 Spec started
 Started
 
-  WebRTC Sample - one client
+  WebRTC Sample
     ✓ should show title
 .    ✓ should show video element and buttons for 'snap', 'send' and 'send and snap'
 .    ✓ should show header for incoming photos
