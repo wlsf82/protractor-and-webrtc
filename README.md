@@ -60,8 +60,8 @@ In this lesson you will learn:
 
 - How to install the application dependencies
 - How to start the app
-- How to install protractor and a test report as dev dependencies
-- How to create a basic protractor configuration for running end-to-end tests
+- How to install Protractor and a test report as dev dependencies
+- How to create a basic Protractor configuration for running end-to-end tests
 - And how to create and run a npm test script
 
 ### Installing the app dependencies
@@ -90,7 +90,7 @@ Note: This app requires camera access, so, in the first time you access it, you 
 
 After allowing the browser to access the camera, you should see yourself in the app.
 
-Now that everything is working, it's time to install protractor, so that you can create automated end-to-end tests.
+Now that everything is working, it's time to install Protractor, so that you can create automated end-to-end tests.
 
 ### Protractor and test report installation
 
@@ -100,13 +100,13 @@ From the project's root directory (in another console's tab), run the bellow com
 
 `npm i protractor@5.0.0 jasmine-spec-reporter -D`
 
-Note: It is necessary to define the version 5.0.0 of protractor due to an issue with version 5.1.x related to the usage of `forkNewDriverInstance()` and `browser.ignoreSynchronization`. This specific things will be explained later during the course.
+Note: It is necessary to define the version 5.0.0 of Protractor due to an issue with version 5.1.x related to the usage of `forkNewDriverInstance()` and `browser.ignoreSynchronization`. This specific things will be explained later during the course.
 
 At the same time, we are installing a node module called `jasmine-spec-reporter`, that will be used for better test reporting.
 
-The `-D` argument will install protractor as a dev dependency.
+The `-D` argument will install Protractor as a dev dependency.
 
-After the protractor's successful installation, the following code should be displayed in the `package.json` file (the `jasmine-spec-reporter` version may be newer):
+After the Protractor's successful installation, the following code should be displayed in the `package.json` file (the `jasmine-spec-reporter` version may be newer):
 
 ```
 "devDependencies": {
@@ -115,7 +115,7 @@ After the protractor's successful installation, the following code should be dis
 }
 ```
 
-As a last step for the protractor installation, update the just shown code (above) to look like this:
+As a last step for the Protractor installation, update the just shown code (above) to look like this:
 
 ```
 "devDependencies": {
@@ -124,13 +124,13 @@ As a last step for the protractor installation, update the just shown code (abov
 }
 ```
 
-By removing the `^` symbol from protractor's version we ensure that if the `node_modules` directory is removed and `npm i` is executed again, the correct version of protractor will be installed.
+By removing the `^` symbol from Protractor's version we ensure that if the `node_modules` directory is removed and `npm i` is executed again, the correct version of Protractor will be installed.
 
-Now with protractor correctly installed we can start configuring it.
+Now with Protractor correctly installed we can start configuring it.
 
 ### Protractor configuration setup
 
-The first thing needed to start using protractor is to setup some basic configurations.
+The first thing needed to start using Protractor is to setup some basic configurations.
 
 Follow the instructions:
 
@@ -173,7 +173,7 @@ First of all, we are defining `"use strict;"` because all the testing code will 
 
 Secondly we are requiring a module called `jasmine-spec-reporter` and storing it in a variable called `SpecReporter`. This will be used for a better test report in the console.
 
-Then we are exporting a config module, where all configurations needed for protractor to run the tests will be defined.
+Then we are exporting a config module, where all configurations needed for Protractor to run the tests will be defined.
 
 Each configuration will be explained below:
 
@@ -192,13 +192,13 @@ For the capabilities config we are also defining some arguments for the `chromeO
 
 This is an important configuration.
 
-Protractor is and end-to-end test framework for AngularJS applications, so, to use it for non-AngularJS apps, it is necessary to define the configuration `browser.ignoreSynchronization = true;`. This configuration tells protractor to not look for Angular when running the tests, and it is defined in the `onPrepare` function since this is a callback function called once protractor is ready and available, and before the specs are executed.
+Protractor is and end-to-end test framework for AngularJS applications, so, to use it for non-AngularJS apps, it is necessary to define the configuration `browser.ignoreSynchronization = true;`. This configuration tells Protractor to not look for Angular when running the tests, and it is defined in the `onPrepare` function since this is a callback function called once Protractor is ready and available, and before the specs are executed.
 
 In the `onPrepare` function we are also defining some specific `jasmine-spec-reporter` configurations for better test reporting.
 
 #### jasmineNodeOpts
 
-By default, protractor uses [Jasmine](https://jasmine.github.io) as a base framework.
+By default, Protractor uses [Jasmine](https://jasmine.github.io) as a base framework.
 In the `jasmineNodeOpts` configuration we are setting the `"defaultTimeoutInterval"` to `10000` milliseconds. We are basically overwriting the default configuration that is `30000` milliseconds, once the tests that we will write are meant to be very fast, and in case of timing issues, we don't want to make a test case wait 30 seconds before failing.
 
 ### NPM test script
@@ -213,7 +213,7 @@ From the project's root directory, update the `package.json` file with the follo
 },
 ```
 
-Protractor needs `webdriver-manager` to be updated before running the tests, so, in the npm script we are defining two commands that will be executed one after the other. The first command updates the webdriver, and the second command runs the protractor configuration file.
+Protractor needs `webdriver-manager` to be updated before running the tests, so, in the npm script we are defining two commands that will be executed one after the other. The first command updates the webdriver, and the second command runs the Protractor configuration file.
 
 After updating and saving the `package.json` file, from the project's root directory, run the below command:
 
@@ -253,7 +253,7 @@ And with this we finish lesson 0. Move on to lesson 1 to create the first test.
 
 ## Lesson 1 - First test
 
-Now that we have an app up and running and the basic configurations needed for protractor, it is time to create the first test.
+Now that we have an app up and running and the basic configurations needed for Protractor, it is time to create the first test.
 
 In this lesson you will learn:
 
@@ -262,7 +262,7 @@ In this lesson you will learn:
 
 ### Test creation
 
-This first test will not focus on specific WebRTC stuff, but to the protractor basics. Later, with some knowledge about how to create tests with protractor we will evolve to specific test for WebRTC applications.
+This first test will not focus on specific WebRTC stuff, but to the Protractor basics. Later, with some knowledge about how to create tests with Protractor we will evolve to specific test for WebRTC applications.
 
 In the already created test folder, create a file called `spec.js`. This is the file that will store our test suite.
 
@@ -289,7 +289,7 @@ Then we define an `it` statement. This statement also receives a string as the f
 
 And finally we define the steps for the test to run.
 
-The `browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the protractor configuration file.
+The `browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the Protractor configuration file.
 
 Then we have two expectations, one to check that the title of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same `"WebRTC Sample"` text on it.
 
@@ -571,7 +571,7 @@ Then update the `spec.js` file by changing the code inside the `beforeEach` func
 
 `browser.get("");`
 
-Since now the base URL of the application is defined in the protractor configuration file, the step that visits the web page can use the relative path, instead of the absolute one, and once we are visiting the home page and the app creates the room name automatically for us, we can just pass an empty string.
+Since now the base URL of the application is defined in the Protractor configuration file, the step that visits the web page can use the relative path, instead of the absolute one, and once we are visiting the home page and the app creates the room name automatically for us, we can just pass an empty string.
 
 > **Suggestion:** Change the code in the `beforeEach` function passing a room name as a string (e.g.: `browser.get("#my-room");`), run the tests and see the tests visiting the room you specified instead of the random generated room.
 
@@ -726,12 +726,12 @@ All the just mentioned test cases have the following in common:
 
 - They store in a variable called `browser2` the new opened browser
 - They store the `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification
-- They set `browser2.ignoreSynchronization` equal to `true`, since protractor needs to know that the application is the second browser is also a non-AngularJS app
+- They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application is the second browser is also a non-AngularJS app
 - They perform on or more clicks in the `snapAndSendButton`, `snapButton` and `sendButton`
 - They wait for a maximum of 5000 milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible
 - Specifically for the fourth new test case the browser is refreshed
 - They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that the count of `incomingPhotosOnBrowser2` is equal to `2` when `snap & send` is clicked twice; verifying that now incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page
-- And lastly, `browser2` is closed, using the `quit()` function, since protractor only knows that it has to automatically closes the first browser.
+- And lastly, `browser2` is closed, using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
 
 And the last new test cases basically:
 
@@ -791,7 +791,7 @@ Yay! 11 test cases running in 7 seconds and we are covering the most important s
 
 In this code lab you learned:
 
-- How to configure protractor for running end-to-end tests on WebRTC applications
+- How to configure Protractor for running end-to-end tests on WebRTC applications
 - How to create basic end-to-end automated tests (high and low level)
 - How to use Page Objets for better organizing tests
 - How to create automated tests where two browsers interact with each other
