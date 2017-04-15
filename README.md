@@ -1,7 +1,5 @@
 # Protractor and WebRTC
 
-**!!! THIS IS STILL WORK IN PROGRESS !!!**
-
 This project is a code lab to teach the basics for creating end-to-end tests with [Protractor](http://www.protractortest.org/#/) for [WebRTC](http://webrtc.org/) applications.
 
 Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-AngularJS apps as well, as will be shown in this code lab.
@@ -32,6 +30,8 @@ In this code lab you will be able to:
 
 We will use a sample WebRTC application based on the following Google's code lab for all lessons: https://codelabs.developers.google.com/codelabs/webrtc-web/#8.
 
+The sample app basically allows two clients to connect in the same room and send snaps to each other.
+
 Note: there is no need to clone the app from the Google's code lab, since this is already part of this project, with minor modifications.
 
 ![WebRTC Sample app during end-to-end test execution](https://s3-sa-east-1.amazonaws.com/helloworld-wlsf82/webrtc-sample.png)
@@ -42,6 +42,17 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 - Computer with camera (app requirement)
 - Node.js v6.x+ (use the following URL to download Node.js in case you don't have it yet: https://nodejs.org/)
 - Chrome browser (due to WebRTC compatibility)
+
+## Feedback and contributions
+
+After completing the code lab, feel free to send me feedback about it (my email is available in the [`package.json`](https://github.com/wlsf82/protractor-and-webrtc/blob/master/package.json) file).
+
+If you want to contribute, fork the project and submit your pull requests. I'll be happy to review and approve them in case they are good contributions.
+
+Some suggestion of contributions are:
+
+- Translation to other languages
+- Tests where the second browser interacts with the first browser
 
 ## Lesson 0 - Setup
 
