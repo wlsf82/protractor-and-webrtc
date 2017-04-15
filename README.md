@@ -787,7 +787,7 @@ Yay! 11 test cases running in 7 seconds and we are covering the most important s
 
 ## Summary and other resources
 
-Congratulations! You now know to how create end-to-end test with Protractor for WebRTC applications.
+**Congratulations!** You now know to how create end-to-end test with Protractor for WebRTC applications.
 
 In this code lab you learned:
 
