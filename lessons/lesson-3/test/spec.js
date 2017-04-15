@@ -27,6 +27,12 @@ describe("WebRTC Sample - one client", () => {
         expect(webrtcSample.incomingPhotosTitle.getText()).toEqual("Incoming photos");
     });
 
+    it("should stream be active", () => {
+        const isStreamActive = browser.executeScript("return window.stream.active;");
+
+        expect(isStreamActive).toBe(true);
+    });
+
     it("should autoplay video be enabled", () => {
         const isVideoAutoplayEnabled = browser.executeScript("const video = document.getElementById('camera'); return video.autoplay;");
 
