@@ -26,7 +26,6 @@ In this code lab you will be able to:
 - [Create the first end-to-end test for the AUT](https://github.com/wlsf82/protractor-and-webrtc#lesson-1---first-test)
 - [Create more tests and organize them using best practices](https://github.com/wlsf82/protractor-and-webrtc#lesson-2---page-object-and-new-tests)
 - [Create tests that simulate real usage of WebRTC apps](https://github.com/wlsf82/protractor-and-webrtc#lesson-3---two-browsers)
-- [Structure the tests](https://github.com/wlsf82/protractor-and-webrtc#lesson-4---structuring-the-tests)
 - [Find useful resources to keep learning about end-to-end tests for web applications](https://github.com/wlsf82/protractor-and-webrtc#summary-and-other-resources)
 
 ## Sample application
