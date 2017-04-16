@@ -6,7 +6,7 @@ describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
-        return browser.get("");
+        return browser.driver.get("http://localhost:8080");
     });
 
     it("should show title", () => {

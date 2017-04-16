@@ -275,7 +275,7 @@ Then add the following code snippet to the just created file (every part of the 
 
 describe("WebRTC Sample", () => {
     it("should show title", () => {
-        return browser.get("http://localhost:8080");
+        return browser.driver.get("http://localhost:8080");
 
         expect(browser.getTitle()).toEqual("WebRTC Sample");
         expect(element(by.css("h1")).getText()).toEqual("WebRTC Sample");
@@ -291,7 +291,9 @@ Then we define an `it` statement. This statement also receives a string as the f
 
 And finally we define the steps for the test to run.
 
-The `return browser.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the Protractor configuration file.
+The `return browser.driver.get("http://localhost:8080");` code will access the defined URL in the Chrome browser that will be automatically opened by the Protractor configuration file.
+
+Note: here we use the webdriver implementation directly instead of the simple `browser.get` of Protractor, since this is recommended when testing non-AngularJS applications.
 
 Then we have two expectations, one to check that the title of the page is equal to `"WebRTC Sample"` and another to check that a `h1` element has the same `"WebRTC Sample"` text on it.
 
@@ -403,7 +405,7 @@ describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     it("should show title", () => {
-        return browser.get("http://localhost:8080");
+        return browser.driver.get("http://localhost:8080");
 
         expect(browser.getTitle()).toEqual("WebRTC Sample");
         expect(webrtcSample.title.getText()).toEqual("WebRTC Sample");
@@ -438,7 +440,7 @@ describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
-        return browser.get("http://localhost:8080");
+        return browser.driver.get("http://localhost:8080");
     });
 
     it("should show title", () => {
@@ -561,24 +563,6 @@ Finished in 0.86 seconds
 [17:59:25] I/launcher - chrome #01 passed
 ```
 
-### Bonus
-
-As an extra best practice for this lesson, let's do one small but very useful refactoring.
-
-Update the `protractor.conf.js` file adding the following new configuration, right below the `"specs"` definition:
-
-`"baseUrl": "http://localhost:8080",`
-
-Then update the `spec.js` file by changing the code inside the `beforeEach` function to look like this:
-
-`return browser.get("");`
-
-Since now the base URL of the application is defined in the Protractor configuration file, the step that visits the web page can use the relative path, instead of the absolute one, and once we are visiting the home page and the app creates the room name automatically for us, we can just pass an empty string.
-
-> **Suggestion:** Change the code in the `beforeEach` function passing a room name as a string (e.g.: `browser.get("#my-room");`), run the tests and see the tests visiting the room you specified instead of the random generated room.
-
-> Note: If you specify the room name, it needs to start with the `#` symbol.
-
 Now that we have a good test suite for the basic things of our sample application it is time to create some test cases for real use cases. Let's move on to the next lesson.
 
 ## Lesson 3 - Two browsers
@@ -629,12 +613,13 @@ it("should show incoming photo on browser 2 when browser 1 clicks 'snap & send' 
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapAndSendButton.click();
-    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+    webrtcSample.snapAndSendButton.click().then(() => {
+        browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
 
-    expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+        expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
 
-    browser2.quit();
+        browser2.quit();
+    });
 });
 
 it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room", () => {
@@ -642,13 +627,15 @@ it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'se
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapButton.click();
-    webrtcSample.sendButton.click();
-    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+    webrtcSample.snapButton.click().then(() => {
+        webrtcSample.sendButton.click().then(() => {
+            browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
 
-    expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+            expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
 
-    browser2.quit();
+            browser2.quit();
+        });
+    });
 });
 
 it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room", () => {
@@ -656,13 +643,14 @@ it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & se
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapAndSendButton.click();
-    browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
-    browser2.refresh();
+    webrtcSample.snapAndSendButton.click().then(() => {
+        browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+        browser2.refresh();
 
-    expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
+        expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
 
-    browser2.quit();
+        browser2.quit();
+    });
 });
 
 it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
@@ -718,38 +706,32 @@ getIncomingPhotosOnBrowser2(browser2) {
 
 These new methods are used to (in this order):
 
-- Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will be in the same URL of the browser base)
+- Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser)
 - Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that an `element2` element is stored in the variable, for being used to locate elements in the second browser)
 - Return all the incoming photos from `browser2` (the same logic of the previous method is applied here)
 
 Now let's understand the new test cases.
 
-I'll explain the third first new test cases together, since they are very similar.
+I'll explain the fourth first new test cases together, since they are very similar.
 
 All the just mentioned test cases have the following in common:
 
-- They store in a variable called `browser2` the new opened browser
-- They store the `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification
-- They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application is the second browser is also a non-AngularJS app
-- They perform clicks in the `snapAndSendButton`, `snapButton` and `sendButton`
-- They wait for a maximum of 5000 milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible
-- Specifically for the third new test case the browser is refreshed
-- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page
+- They store in a variable called `browser2` the new opened browser.
+- They store the variables `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification.
+- They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application in the second browser is a non-AngularJS application as well.
+- They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, so, don't worry to see some nested code).
+- Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible.
+- Specifically for the third new test case the `browser2` is refreshed.
+- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page; and verifying that the number of incoming photos is `2`.
 - And lastly, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
-
-The fourth new test is a bit different.
-
-- It also stores in a variable called `browser2` the new opened browser, it stores the `incomingPhotosOnBrowser2`, and it also uses `browser2.ignoreSynchronization = true;`
-- But when clicking `snapAndSendButton` in the first browser for the first time, it calls the `.then` function, since the click returns a promise, then it performs the second click in the same button and calls the `.then` function again
-- And finally it waits for the visibility of the last incoming photo, does the expectation that the number of incoming photos is `2`, and quits `browser2`.
 
 And the last new test case basically:
 
-- Opens a new browser in the same room of the first browser
-- Calls `browser2.ignoreSynchronization = true` (non-AngularJS app)
-- Does the same two steps for a third browser
-- Swiths to an expected alert and clicks ok (accpet it)
-- And both two new browsers (`browser2` and `browser3` are closed using the `quit()` function)
+- Opens a new browser in the same room of the first browser.
+- Calls `browser2.ignoreSynchronization = true` (non-AngularJS app).
+- Does the same two steps for a third browser.
+- Switches to an expected alert and clicks ok (accept it).
+- And both two new browsers (`browser2` and `browser3`) are closed using the `quit()` function.
 
 Note that for the last new test case there is no verification, but if the alert is not displayed, the test will fail, so this is ok.
 
@@ -805,6 +787,7 @@ In this code lab you learned:
 - How to create basic end-to-end automated tests (high and low level)
 - How to use Page Objets for better organizing tests
 - How to create automated tests where two browsers interact with each other
+- How to work with Protractor promises
 
 ### List of resources for keep learning
 

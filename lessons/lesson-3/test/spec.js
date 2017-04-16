@@ -8,7 +8,7 @@ describe("WebRTC Sample", () => {
     const webrtcSample = new WebrtcSample();
 
     beforeEach(() => {
-        return browser.get("");
+        return browser.driver.get("http://localhost:8080");
     });
 
     it("should show title", () => {
@@ -51,12 +51,13 @@ describe("WebRTC Sample", () => {
         const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
         browser2.ignoreSynchronization = true;
-        webrtcSample.snapAndSendButton.click();
-        browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+        webrtcSample.snapAndSendButton.click().then(() => {
+            browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
 
-        expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+            expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
 
-        browser2.quit();
+            browser2.quit();
+        });
     });
 
     it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room", () => {
@@ -64,13 +65,15 @@ describe("WebRTC Sample", () => {
         const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
         browser2.ignoreSynchronization = true;
-        webrtcSample.snapButton.click();
-        webrtcSample.sendButton.click();
-        browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+        webrtcSample.snapButton.click().then(() => {
+            webrtcSample.sendButton.click().then(() => {
+                browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
 
-        expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
+                expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
 
-        browser2.quit();
+                browser2.quit();
+            });
+        });
     });
 
     it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room", () => {
@@ -78,13 +81,14 @@ describe("WebRTC Sample", () => {
         const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
         browser2.ignoreSynchronization = true;
-        webrtcSample.snapAndSendButton.click();
-        browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
-        browser2.refresh();
+        webrtcSample.snapAndSendButton.click().then(() => {
+            browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
+            browser2.refresh();
 
-        expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
+            expect(incomingPhotoOnBrowser2.isPresent()).not.toBe(true);
 
-        browser2.quit();
+            browser2.quit();
+        });
     });
 
     it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room", () => {
