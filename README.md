@@ -86,7 +86,7 @@ This WebRTC sample application is based on Node.js, this means that node will be
 
 From the project's root directory, run the below command to start the app:
 
-`node inde.jx`
+`node index.js`
 
 With the app running, open the Chrome browser and type the following URL: http://localhost:8080
 
