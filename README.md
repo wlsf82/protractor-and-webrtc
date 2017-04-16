@@ -680,12 +680,9 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     browser2.ignoreSynchronization = true;
     webrtcSample.snapAndSendButton.click().then(() => {
         webrtcSample.snapAndSendButton.click().then(() => {
-            const twoIncomingPhotos = function() {
-                return incomingPhotosOnBrowser2.count().then((numberOfPhotos) => {
-                    return numberOfPhotos === 2;
-                });
-            }
-            browser2.wait(twoIncomingPhotos, DEFAULT_TIMEOUT);
+            browser2.wait(webrtcSample.areTwoIncomingPhotosAvailable(incomingPhotosOnBrowser2),
+            DEFAULT_TIMEOUT
+        );
 
             expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
@@ -727,13 +724,20 @@ getIncomingPhotosOnBrowser2(browser2) {
 
     return element2.all(by.css("#trail canvas"));
 }
+
+areTwoIncomingPhotosAvailable(incomingPhotosElement) {
+    return incomingPhotosElement.count().then((numberOfPhotos) => {
+        return numberOfPhotos === 2;
+    });
+}
 ```
 
 These new methods are used to (in this order):
 
-- Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser)
-- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that an `element2` element is stored in the variable, for being used to locate elements in the second browser)
-- Return all the incoming photos from `browser2` (the same logic of the previous method is applied here)
+- Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser).
+- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that an `element2` element is stored in the variable, for being used to locate elements in the second browser).
+- Return all the incoming photos from `browser2` (the same logic of the previous method is applied here).
+- Return a condition that tells if there are two incoming photos available inside the `incomingPhotosElement` (note that this element is passed as an argument to the function).
 
 Now let's understand the new test cases.
 
@@ -742,12 +746,12 @@ I'll explain the first three new test cases together, since they are very simila
 All the just mentioned test cases have the following in common:
 
 - They store in a variable called `browser2` the new opened browser.
-- They store the variables `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for later verification.
+- They store the first incoming photo from `browser2` in a variable called `incomingPhotoOnBrowser2` for later verification.
 - They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application in the second browser is a non-AngularJS application as well.
-- They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, so, don't worry to see some nested code).
-- Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds for the `incomingPhotoOnBrowser2` be visible.
+- They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, this is why we have some nested code).
+- Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds for the `incomingPhotoOnBrowser2` to be visible.
 - Specifically for the third new test case the `browser2` is refreshed.
-- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
+- They run their specific verifications, such as expecting that the `incomingPhotoOnBrowser2` is displayed after the first browser clicks `snap & send` or `snap` and `send`; expecting that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
 - And lastly, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
 
 The fourth new test cases is a bit different:
@@ -756,8 +760,8 @@ The fourth new test cases is a bit different:
 - It stores in a variable called `incomingPhotosOnBrowser2` all the incoming photos for later verification.
 - It also sets `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
 - It clicks in the `snapAndSendButton` and calls the `.then` function, since the click returns a promise, and does it again for the second click.
-- Then the different part starts. It stores in a variable called `twoIncomingPhotos` a function that returns a promise when the `count` promise is equal to `2`, for usage in the `browser2.wait` function that comes next.
-- It waits for a maximum of `5000` milliseconds for the just created condition to be `true`, meaning that two incoming photos are displayed.
+- Then it calls the `browser.wait` function passing as first argument the function `areTwoIncomingPhotosAvailable`, from the `webrtcSample` Page Object, and the `incomingPhotosOnBrowser2` is the argument for this function (the idea is that this function returns a promise saying if two incoming photos are available).
+- As a second argument for the `browser.wait` it passes the `DEFAULT_TIMEOUT`, that is equal to `5000`.
 - It finally does the verification expecting that the count of incoming photos is `2`.
 - And it closes `browser2`.
 
