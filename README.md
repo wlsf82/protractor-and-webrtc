@@ -59,6 +59,7 @@ Some suggestions of contributions are:
 
 - Translation to other languages
 - Tests where the second browser interacts with the first browser
+- Separating test for single browser and more browsers in different files
 
 ## Lesson 0 - Setup
 
