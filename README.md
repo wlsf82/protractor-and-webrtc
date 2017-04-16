@@ -45,11 +45,11 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 
 ## Feedback and contributions
 
-After completing the code lab, feel free to send me feedback about it (my email is available in the [`package.json`](https://github.com/wlsf82/protractor-and-webrtc/blob/master/package.json) file).
+After completing this code lab, feel free to send me feedback (my email is available in the [`package.json`](https://github.com/wlsf82/protractor-and-webrtc/blob/master/package.json) file).
 
 If you want to contribute, fork the project and submit your pull requests. I'll be happy to review and approve them in case they are good contributions.
 
-Some suggestion of contributions are:
+Some suggestions of contributions are:
 
 - Translation to other languages
 - Tests where the second browser interacts with the first browser
@@ -570,7 +570,7 @@ In this lesson you will learn:
 - How to create tests where two browsers interact with each other
 - How to create other Page Object methods that may be useful for tests with two or more browsers
 
-### Brief introduction to real use cases of WebRTC applications
+### Brief introduction to real use cases of WebRTC application testing
 
 You may have noticed that so far all the tests are only navigating to the application under test and performing verifications. There is no other interaction and the application is not being used as real users would do.
 
