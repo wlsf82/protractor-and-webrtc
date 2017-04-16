@@ -483,7 +483,7 @@ Some examples of these verifications can be:
 - Verifying that video autoplay is enabled
 - Verifying signaling connection
 - Verifying video tracking
-- Etc
+- And much more
 
 This kind of verifications will be the focus of the new tests that we will create.
 
@@ -513,7 +513,7 @@ The first new test store in a variable called `isStreamActive` the return of a p
 
 The second new test store in a variable called `isVideoAutoplayEnabled` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that video autoplay is enabled.
 
-This is a powerful option of Protractor and it may be very useful when testing WebRTC applications, since you can check that many things that happen in the background are working fine when when simulating the real use of the application.
+This `browser.executeScript()` function is a powerful option of Protractor and it may be very useful when testing WebRTC applications, since you can check that many things that happen in the background are working fine when simulating the real use of the application.
 
 Now let's update the Page Object file before the explanation of the third new test.
 
