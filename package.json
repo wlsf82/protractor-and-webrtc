@@ -2,6 +2,9 @@
   "name": "webrtc-sample",
   "version": "0.0.1",
   "description": "WebRTC Sample",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "node-static": "0.7.7",
     "socket.io": "1.2.0"

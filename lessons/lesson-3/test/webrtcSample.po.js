@@ -32,6 +32,12 @@ class WebrtcSample {
 
         return element2.all(by.css("#trail canvas"));
     }
+
+    areTwoIncomingPhotosAvailable(incomingPhotosElement) {
+        return incomingPhotosElement.count().then((numberOfPhotos) => {
+            return numberOfPhotos === 2;
+        });
+    }
 }
 
 module.exports = WebrtcSample;
