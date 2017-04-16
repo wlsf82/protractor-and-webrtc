@@ -87,9 +87,11 @@ With all the dependencies installed, you can already start the app to test it ou
 
 This WebRTC sample application is based on Node.js, this means that node will be used to start it.
 
-From the project's root directory, run the below command to start the app:
+In the `package.json` file there is a npm script that runs `node index.js`. To start the app we will use this script.
 
-`node index.js`
+From the project's root directory, run the below command:
+
+`npm start`
 
 With the app running, open the Chrome browser and type the following URL: http://localhost:8080
 
@@ -212,12 +214,19 @@ In the `jasmineNodeOpts` configuration we are setting the `"defaultTimeoutInterv
 
 ### NPM test script
 
-To ease running the tests we will use npm scripts.
+To ease running the tests we will use npm scripts, as we have for starting the app.
 
-From the project's root directory, update the `package.json` file with the following code, right below the project's description:
+From the project's root directory, update the `package.json` file with the following code, right below the `"start"` script:
+
+`"test": "./node_modules/.bin/webdriver-manager update && ./node_modules/.bin/protractor test/protractor.conf.js"`
+
+Note: remember to separate the scripts using comma.
+
+In the end you will have a `"scripts"` section like this:
 
 ```
 "scripts": {
+  "start": "node index.js",
   "test": "./node_modules/.bin/webdriver-manager update && ./node_modules/.bin/protractor test/protractor.conf.js"
 },
 ```
