@@ -384,13 +384,17 @@ Then we are defining a `WebrtcSample` class and this class has a constructor tha
 Some of the elements are defined using css selectors:
 
 > `this.title = element(by.css("h1"));`
+
 > `this.incomingPhotosTitle = element(by.css("h2"));`
 
 And others are identified by their ids:
 
 > `this.videoCanvas = element(by.id("videoCanvas"));`
+
 > `this.snapButton = element(by.id("snap"));`
+
 > `this.sendButton = element(by.id("send"));`
+
 > `this.snapAndSendButton = element(by.id("snapAndSend"));`
 
 And finally we are exporting the `WebrtcSample` class as a module.
@@ -507,7 +511,7 @@ it("should have the same room name on url and when returning it on console", () 
     const roomNameFromUrl = webrtcSample.getRoomNameFromUrl();
     const roomNameFromConsole = browser.executeScript("return room;");
 
-    expect(roomNameFromUrl).toEqual(oomNameFromConsole);
+    expect(roomNameFromUrl).toEqual(roomNameFromConsole);
 });
 ```
 The first new test store in a variable called `isStreamActive` the return of a pure JavaScript code and then it expects that the value stored in this variable is equal to true, meaning that stream is active.
