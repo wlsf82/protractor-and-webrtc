@@ -12,6 +12,12 @@ Creating end-to-end tests for real time communication apps is not exactly the sa
 
 When talking about WebRTC apps, we need to keep in mind that the core of such application is communication, and this means that clients in two or more browsers will be interacting with each other using the app, so, automated tests needs to ensure that the correct behavior is happening for real use cases.
 
+## Motivation
+
+I work with software testing automation using the Protractor framework for almost 3 years, and now that I'm using this framework professionally for testing WebRTC applications, I thought would be nice to share some learnings with the software community.
+
+This project was created during Easter holidays and I hope it will be useful for software engineers developing WebRTC applications, or simply developing  end-to-end tests for any other kind of web apps.
+
 ## Code lab structure
 
 Each lesson in this code lab is already solved in its specific directory, but we will create it from scratch in the project's root directory, and you can check the final solution for each lesson in case of doubts.
