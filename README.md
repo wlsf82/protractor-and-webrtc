@@ -669,7 +669,12 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     browser2.ignoreSynchronization = true;
     webrtcSample.snapAndSendButton.click().then(() => {
         webrtcSample.snapAndSendButton.click().then(() => {
-            browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+            const twoIncomingPhotos = function() {
+                return incomingPhotosOnBrowser2.count().then((numberOfPhotos) => {
+                    return numberOfPhotos === 2;
+                });
+            }
+            browser2.wait(twoIncomingPhotos, DEFAULT_TIMEOUT);
 
             expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
@@ -721,18 +726,29 @@ These new methods are used to (in this order):
 
 Now let's understand the new test cases.
 
-I'll explain the fourth first new test cases together, since they are very similar.
+I'll explain the first three new test cases together, since they are very similar.
 
 All the just mentioned test cases have the following in common:
 
 - They store in a variable called `browser2` the new opened browser.
-- They store the variables `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for further verification.
+- They store the variables `incomingPhotoOnBrowser2` or the `incomingPhotosOnBrowser2` for later verification.
 - They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application in the second browser is a non-AngularJS application as well.
 - They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, so, don't worry to see some nested code).
-- Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds for the `incomingPhotoOnBrowser2` or `incomingPhotosOnBrowser2` be visible.
+- Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds for the `incomingPhotoOnBrowser2` be visible.
 - Specifically for the third new test case the `browser2` is refreshed.
-- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page; and verifying that the number of incoming photos is `2`.
+- They run their specific verifications, such as verifying that the `incomingPhotoOnBrowser2` is displayed when after the first browser clicks `snap & send` or `snap` and `send`; verifying that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
 - And lastly, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
+
+The fourth new test cases is a bit different:
+
+- It also stores in a variable called `browser2` the new opened browser.
+- It stores in a variable called `incomingPhotosOnBrowser2` all the incoming photos for later verification.
+- It also sets `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
+- It clicks in the `snapAndSendButton` and calls the `.then` function, since the click returns a promise, and does it again for the second click.
+- Then the different part starts. It stores in a variable called `twoIncomingPhotos` a function that returns a promise when the `count` promise is equal to `2`, for usage in the `browser2.wait` function that comes next.
+- It waits for a maximum of `5000` milliseconds for the just created condition to be `true`, meaning that two incoming photos are displayed.
+- It finally does the verification expecting that the count of incoming photos is `2`.
+- And it closes `browser2`.
 
 And the last new test case basically:
 

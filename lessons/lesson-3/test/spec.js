@@ -98,7 +98,12 @@ describe("WebRTC Sample", () => {
         browser2.ignoreSynchronization = true;
         webrtcSample.snapAndSendButton.click().then(() => {
             webrtcSample.snapAndSendButton.click().then(() => {
-                browser2.wait(EC.visibilityOf(incomingPhotosOnBrowser2.last()), DEFAULT_TIMEOUT);
+                const twoIncomingPhotos = function() {
+                    return incomingPhotosOnBrowser2.count().then((numberOfPhotos) => {
+                        return numberOfPhotos === 2;
+                    });
+                }
+                browser2.wait(twoIncomingPhotos, DEFAULT_TIMEOUT);
 
                 expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
