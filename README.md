@@ -59,6 +59,8 @@ Some suggestions of contributions are:
 
 - Translation to other languages
 - Fix potential issues in the sample app
+- Make it work with Firefox and Opera browsers
+- Add test for checking ICE connection state
 
 ## Lesson 0 - Setup
 
