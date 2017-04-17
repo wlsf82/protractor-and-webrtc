@@ -691,9 +691,12 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     browser2.ignoreSynchronization = true;
     webrtcSample.snapAndSendButton.click().then(() => {
         webrtcSample.snapAndSendButton.click().then(() => {
-            browser2.wait(webrtcSample.areTwoIncomingPhotosAvailable(incomingPhotosOnBrowser2),
-            DEFAULT_TIMEOUT);
-
+            const twoIncomingPhotos = function() {
+                return incomingPhotosOnBrowser2.count().then((numberOfPhotos) => {
+                    return numberOfPhotos === 2;
+                });
+            };
+            browser2.wait(twoIncomingPhotos, DEFAULT_TIMEOUT);
             expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
             browser2.quit();
@@ -716,12 +719,6 @@ getFirstIncomingPhotoOnBrowser2(browser2) {
 getIncomingPhotosOnBrowser2(browser2) {
     return browser2.element.all(by.css("#trail canvas"));
 }
-
-areTwoIncomingPhotosAvailable(incomingPhotosElement) {
-    return incomingPhotosElement.count().then((numberOfPhotos) => {
-        return numberOfPhotos === 2;
-    });
-}
 ```
 
 These new methods are used to (in this order):
@@ -729,7 +726,6 @@ These new methods are used to (in this order):
 - Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser).
 - Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that `browser2.element` is used to locate the element in the second browser).
 - Return all the incoming photos from `browser2` (the same logic of the previous method is applied here).
-- Return a promise that two incoming photos available inside the `incomingPhotosElement` (note that this element is passed as an argument to the function).
 
 Now let's understand the new test cases.
 
@@ -752,7 +748,8 @@ The last new test is a bit different:
 - It stores in a variable named as `incomingPhotosOnBrowser2` all the incoming photos for later verification.
 - It also sets `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
 - It clicks in the `snapAndSendButton` and calls the `.then` function, since the click returns a promise, and does it again for the second click.
-- Then it calls the `browser.wait` function passing as first argument the function `areTwoIncomingPhotosAvailable`, from the `webrtcSample` Page Object, and the `incomingPhotosOnBrowser2` is the argument for this function (the idea is that this function returns a promise that two incoming photos are available). As a second argument for the `browser.wait` it passes the `DEFAULT_TIMEOUT`, that is equal to `5000`.
+- Then the different part starts. It stores in a variable named as `twoIncomingPhotos` a function that returns a promise when the `count` promise is equal to `2`, for usage in the `browser2.wait` function that comes next.
+- It waits for a maximum of `5000` milliseconds for the just created condition to be `true`, meaning that two incoming photos are available.
 - It finally does the verification, expecting that the count of incoming photos is `2`.
 - And it closes `browser2` with the `quit()` function.
 

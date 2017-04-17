@@ -28,12 +28,6 @@ class WebrtcSample {
     getIncomingPhotosOnBrowser2(browser2) {
         return browser2.element.all(by.css("#trail canvas"));
     }
-
-    areTwoIncomingPhotosAvailable(incomingPhotosElement) {
-        return incomingPhotosElement.count().then((numberOfPhotos) => {
-            return numberOfPhotos === 2;
-        });
-    }
 }
 
 module.exports = WebrtcSample;
