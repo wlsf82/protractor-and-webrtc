@@ -710,15 +710,11 @@ openNewBrowserInTheSameRoom(browser) {
 }
 
 getFirstIncomingPhotoOnBrowser2(browser2) {
-    const element2 = browser2.element;
-
-    return element2(by.css("#trail canvas"));
+    return browser2.element(by.css("#trail canvas"));
 }
 
 getIncomingPhotosOnBrowser2(browser2) {
-    const element2 = browser2.element;
-
-    return element2.all(by.css("#trail canvas"));
+    return browser2.element.all(by.css("#trail canvas"));
 }
 
 areTwoIncomingPhotosAvailable(incomingPhotosElement) {
@@ -731,7 +727,7 @@ areTwoIncomingPhotosAvailable(incomingPhotosElement) {
 These new methods are used to (in this order):
 
 - Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser).
-- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that `browser2.element` is stored in the variable named as `element2`. This is necessary to locate elements in the second browser).
+- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that `browser2.element` is used to locate the element in the second browser).
 - Return all the incoming photos from `browser2` (the same logic of the previous method is applied here).
 - Return a promise that two incoming photos available inside the `incomingPhotosElement` (note that this element is passed as an argument to the function).
 

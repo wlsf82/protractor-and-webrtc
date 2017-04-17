@@ -22,15 +22,11 @@ class WebrtcSample {
     }
 
     getFirstIncomingPhotoOnBrowser2(browser2) {
-        const element2 = browser2.element;
-
-        return element2(by.css("#trail canvas"));
+        return browser2.element(by.css("#trail canvas"));
     }
 
     getIncomingPhotosOnBrowser2(browser2) {
-        const element2 = browser2.element;
-
-        return element2.all(by.css("#trail canvas"));
+        return browser2.element.all(by.css("#trail canvas"));
     }
 
     areTwoIncomingPhotosAvailable(incomingPhotosElement) {
