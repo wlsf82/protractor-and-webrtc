@@ -243,32 +243,37 @@ After updating and saving the `package.json` file, from the project's root direc
 If everything went ok you should see an output like this:
 
 ```
+> webrtc-sample@0.0.1 test /Users/foobarbazuser/protractor-and-webrtc
 > webdriver-manager update && ./node_modules/.bin/protractor test/protractor.conf.js
 
-[15:26:53] I/update - chromedriver: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26mac64.zip
-[15:26:53] I/update - chromedriver: unzipping chromedriver_2.26mac64.zip
-[15:26:53] I/update - chromedriver: setting permissions to 0755 for /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26
-[15:26:53] I/update - chromedriver: 2.26 up to date
-[15:26:54] I/update - selenium standalone: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar
-[15:26:54] I/update - selenium standalone: 2.53.1 up to date
-[15:26:54] I/update - geckodriver: file exists /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0-macos.tar.gz
-[15:26:54] I/update - geckodriver: unzipping geckodriver-v0.12.0-macos.tar.gz
-[15:26:54] I/update - geckodriver: setting permissions to 0755 for /Users/foobaruser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0
-[15:26:54] I/update - geckodriver: v0.12.0 up to date
-[15:26:55] I/local - Starting selenium standalone server...
-[15:26:55] I/launcher - Running 1 instances of WebDriver
-[15:26:55] I/local - Selenium standalone server started at http://192.168.0.19:53953/wd/hub
-Started
-
-
-No specs found
-Finished in 0.001 seconds
-[15:26:56] I/local - Shutting down selenium standalone server.
-[15:26:56] I/launcher - 0 instance(s) of WebDriver still running
-[15:26:56] I/launcher - chrome #01 passed
+[14:37:41] I/update - chromedriver: file exists /Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26mac64.zip
+[14:37:41] I/update - chromedriver: unzipping chromedriver_2.26mac64.zip
+[14:37:41] I/update - chromedriver: setting permissions to 0755 for /Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.26
+[14:37:41] I/update - chromedriver: 2.26 up to date
+[14:37:41] I/update - selenium standalone: file exists /Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar
+[14:37:41] I/update - selenium standalone: 2.53.1 up to date
+[14:37:41] I/update - geckodriver: file exists /Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0-macos.tar.gz
+[14:37:41] I/update - geckodriver: unzipping geckodriver-v0.12.0-macos.tar.gz
+[14:37:41] I/update - geckodriver: setting permissions to 0755 for /Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.12.0
+[14:37:41] I/update - geckodriver: v0.12.0 up to date
+[14:37:42] W/configParser - pattern *.spec.js did not match any files.
+[14:37:42] E/launcher - Spec patterns did not match any files.
+[14:37:42] E/launcher - Error: Spec patterns did not match any files.
+    at Runner.run (/Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/built/runner.js:234:19)
+    at TaskRunner.run (/Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/built/taskRunner.js:109:27)
+    at createNextTaskRunner (/Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/built/launcher.js:234:28)
+    at helper.runFilenameOrFn_.then.then.then (/Users/foobarbazuser/protractor-and-webrtc/node_modules/protractor/built/launcher.js:259:13)
+    at _fulfilled (/Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:796:13)
+    at /Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:604:44
+    at runSingle (/Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:137:13)
+    at flush (/Users/foobarbazuser/protractor-and-webrtc/node_modules/q/q.js:125:13)
+[14:37:42] E/launcher - Process exited with error code 199
+npm ERR! Test failed.  See above for more details.
 ```
 
-Also, while the npm script is running you should see the Chrome browser being automatically opened and closed.
+This error is expected, since there is no test file (`*.spec.js`) created yet.
 
 With this we finish lesson 0. Move on to lesson 1 to create the first test.
 
@@ -447,6 +452,8 @@ Note: We use upper camel case for the class name and lower camel case for the ob
 Finally, note that in the second expectation, instead of defining the element directly in the test, we are now using the just instantiated object and getting the text of the `title` element of this Page Object for comparing to our expectation (`expect(webrtcSample.title.getText()).toEqual("WebRTC Sample");`).
 
 > Using Page Objects not only helps on maintainability, but also on readability.
+
+If you want, run the `npm test` command again to see that your test is still working.
 
 Now it is time to create some new tests.
 
