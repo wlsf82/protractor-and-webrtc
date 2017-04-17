@@ -46,9 +46,8 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 
 - Knowledge of JavaScritp
 - Basic knowledge of CSS selectors
-- Computer with camera (app requirement)
 - Node.js v6.x+ (use the following URL to download Node.js in case you don't have it yet: https://nodejs.org/)
-- Chrome browser (due to WebRTC compatibility)
+- Chrome, Firefox or Opera browser(due to WebRTC compatibility)
 
 ## Feedback and contributions
 
@@ -98,6 +97,8 @@ If everything went ok, you should see the WebRTC Sample app running.
 Note: This app requires camera access, so, in the first time you access it, you may allow the browser to access your computer's camera.
 
 After allowing the browser to access the camera, you should see yourself in the app.
+
+Note: don't worry if your computer doesn't have a camera, we will a fake camera device for the automated tests.
 
 Now that everything is working it's time to install Protractor, so that you can create automated end-to-end tests.
 
