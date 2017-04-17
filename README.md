@@ -694,8 +694,7 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     webrtcSample.snapAndSendButton.click().then(() => {
         webrtcSample.snapAndSendButton.click().then(() => {
             browser2.wait(webrtcSample.areTwoIncomingPhotosAvailable(incomingPhotosOnBrowser2),
-            DEFAULT_TIMEOUT
-        );
+            DEFAULT_TIMEOUT);
 
             expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
