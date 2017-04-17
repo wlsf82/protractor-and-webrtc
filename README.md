@@ -643,8 +643,8 @@ Then, update the same file with the below new test cases (they will all be expla
 ```
 it("should check that video is flowing between clients", () => {
     const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-    const isVideoFlowingScript = "return video.readyState === 4";
     const videoOnBrowser2 = webrtcSample.getVideoElementOnBrowser2(browser2);
+    const isVideoFlowingScript = "return video.readyState === 4";
 
     browser2.ignoreSynchronization = true;
     browser2.wait(EC.visibilityOf(videoOnBrowser2), DEFAULT_TIMEOUT);
