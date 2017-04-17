@@ -601,7 +601,7 @@ Now that we have a good test suite for the basic things of our WebRTC sample app
 In this lesson you will learn:
 
 - How to create tests where two browsers interact with each other
-- How to create other Page Object methods that are useful for tests with two or more browsers
+- How to create other Page Object methods that are useful for tests with two
 
 ### Brief introduction to real use cases of WebRTC application testing
 
@@ -810,7 +810,7 @@ In this code lab you learned:
 - How to configure Protractor for running end-to-end tests for WebRTC applications
 - How to create basic end-to-end automated tests (high and low level)
 - How to use Page Objets for better organizing tests
-- How to create automated tests where two or more browsers interact with each other
+- How to create automated tests where two browsers interact with each other
 - How to work with Protractor promises
 
 ### List of resources for keep learning
