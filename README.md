@@ -702,20 +702,6 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
         });
     });
 });
-
-it("should show an alert meaning that the room is full when a third client tries to join", () => {
-    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-
-    browser2.ignoreSynchronization = true;
-
-    const browser3 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-
-    browser3.ignoreSynchronization = true;
-    // There is no expectation in this test, but the below step will fail if no alert is displayed.
-    browser3.switchTo().alert().accept();
-    browser2.quit();
-    browser3.quit();
-});
 ```
 
 Finally, update the `webrtcSample.po.js` file adding the following new methods (they will all be explained as well):
@@ -766,7 +752,7 @@ All the just mentioned test cases have the following in common:
 - They run their specific verifications, such as expecting that the `incomingPhotoOnBrowser2` is displayed after the first browser clicks `snap & send` or `snap` and `send`; and expecting that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
 - Finally, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
 
-The fourth new test cases is a bit different:
+The last new test is a bit different:
 
 - It also stores in a variable named as `browser2` the new opened browser.
 - It stores in a variable named as `incomingPhotosOnBrowser2` all the incoming photos for later verification.
@@ -775,16 +761,6 @@ The fourth new test cases is a bit different:
 - Then it calls the `browser.wait` function passing as first argument the function `areTwoIncomingPhotosAvailable`, from the `webrtcSample` Page Object, and the `incomingPhotosOnBrowser2` is the argument for this function (the idea is that this function returns a promise that two incoming photos are available). As a second argument for the `browser.wait` it passes the `DEFAULT_TIMEOUT`, that is equal to `5000`.
 - It finally does the verification, expecting that the count of incoming photos is `2`.
 - And it closes `browser2` with the `quit()` function.
-
-The last new test case basically:
-
-- Opens a new browser in the same room of the first browser.
-- Calls `browser2.ignoreSynchronization = true` (non-AngularJS app).
-- Does the same two steps for a third browser.
-- Switches to an expected alert and accepts it.
-- And both the two new browsers (`browser2` and `browser3`) are closed using the `quit()` function.
-
-Note that for the last new test case there is no verification, but if the alert is not displayed, the test will fail, so this is ok.
 
 Now let's run our updated test suite.
 
@@ -813,20 +789,19 @@ Started
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room
 .    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
 .    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
-.    ✓ should show an alert meaning that the room is full when a third client tries to join
 .
-Executed 11 of 11 specs SUCCESS in 7 secs.
+Executed 10 of 10 specs SUCCESS in 7 secs.
 
 
 
-11 specs, 0 failures
-Finished in 7.23 seconds
+10 specs, 0 failures
+Finished in 5.384 seconds
 [18:07:48] I/local - Shutting down selenium standalone server.
 [18:07:48] I/launcher - 0 instance(s) of WebDriver still running
 [18:07:48] I/launcher - chrome #01 passed
 ```
 
-Yay! 11 test cases running and passing in 7 seconds and we are covering the most important scenarios of the application.
+Yay! 10 test cases running and passing in 5 seconds and we are covering the most important scenarios of the application.
 
 ## Summary and other resources
 

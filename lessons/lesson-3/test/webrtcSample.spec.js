@@ -107,18 +107,4 @@ describe("WebRTC Sample", () => {
             });
         });
     });
-
-    it("should show an alert meaning that the room is full when a third client tries to join", () => {
-        const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-
-        browser2.ignoreSynchronization = true;
-
-        const browser3 = webrtcSample.openNewBrowserInTheSameRoom(browser);
-
-        browser3.ignoreSynchronization = true;
-        // There is no expectation in this test, but the below step will fail if no alert is displayed.
-        browser3.switchTo().alert().accept();
-        browser2.quit();
-        browser3.quit();
-    });
 });
