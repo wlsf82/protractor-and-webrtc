@@ -59,8 +59,7 @@ If you want to contribute, fork the project and submit your pull requests. I'll 
 Some suggestions of contributions are:
 
 - Translation to other languages
-- Tests where the second browser interacts with the first browser
-- Separating test for single browser and more browsers in different files
+- Fix potential issues in the sample app
 
 ## Lesson 0 - Setup
 
