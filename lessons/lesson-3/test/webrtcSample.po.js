@@ -21,6 +21,10 @@ class WebrtcSample {
         return browser.forkNewDriverInstance(true);
     }
 
+    getVideoElementOnBrowser2(browser2) {
+        return browser2.element(by.id("videoCanvas"));
+    }
+
     getFirstIncomingPhotoOnBrowser2(browser2) {
         return browser2.element(by.css("#trail canvas"));
     }

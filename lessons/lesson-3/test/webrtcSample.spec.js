@@ -46,6 +46,20 @@ describe("WebRTC Sample", () => {
         expect(roomNameFromUrl).toEqual(roomNameFromConsole);
     });
 
+    it("should check that video is flowing between clients", () => {
+        const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+        const videoOnBrowser2 = webrtcSample.getVideoElementOnBrowser2(browser2);
+        const isVideoFlowingScript = "return video.readyState === 4";
+
+        browser2.ignoreSynchronization = true;
+        browser2.wait(EC.visibilityOf(videoOnBrowser2), DEFAULT_TIMEOUT);
+
+        expect(browser.executeScript(isVideoFlowingScript)).toBe(true);
+        expect(browser2.executeScript(isVideoFlowingScript)).toBe(true);
+
+        browser2.quit();
+    });
+
     it("should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room", () => {
         const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
         const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);

@@ -615,6 +615,7 @@ With this WebRTC Sample application it is possible to take snaps and send to the
 
 The idea is create test cases for the following scenarios:
 
+- Check that video is flowing between two clients
 - Check that a incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
 - Check that a incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
 - Check that a incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photo
@@ -638,6 +639,20 @@ We are also storing in a variable called `EC` the `protractor.ExpectedConditions
 Then, update the same file with the below new test cases (they will all be explained in details later):
 
 ```
+it("should check that video is flowing between clients", () => {
+    const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
+    const isVideoFlowingScript = "return video.readyState === 4";
+    const videoOnBrowser2 = webrtcSample.getVideoElementOnBrowser2(browser2);
+
+    browser2.ignoreSynchronization = true;
+    browser2.wait(EC.visibilityOf(videoOnBrowser2), DEFAULT_TIMEOUT);
+
+    expect(browser.executeScript(isVideoFlowingScript)).toBe(true);
+    expect(browser2.executeScript(isVideoFlowingScript)).toBe(true);
+
+    browser2.quit();
+});
+
 it("should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room", () => {
     const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
@@ -711,6 +726,10 @@ openNewBrowserInTheSameRoom(browser) {
     return browser.forkNewDriverInstance(true);
 }
 
+getVideoElementOnBrowser2(browser2) {
+    return browser2.element(by.id("videoCanvas"));
+}
+
 getFirstIncomingPhotoOnBrowser2(browser2) {
     return browser2.element(by.css("#trail canvas"));
 }
@@ -723,31 +742,40 @@ getIncomingPhotosOnBrowser2(browser2) {
 These new methods are used to (in this order):
 
 - Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser).
-- Return the first incoming photo on `browser2` (note that a `browser2` argument is needed and that `browser2.element` is used to locate the element in the second browser).
-- Return all the incoming photos from `browser2` (the same logic of the previous method is applied here).
+- Returns the video element from `browser2` (note that a `browser2` argument is needed and that `browser2.element` is used to locate the element in the second browser).
+- Return the first incoming photo on `browser2` (the same logic of the previous method is applied here).
+- Return all the incoming photos from `browser2` (the same logic of the previous method is applied here as well).
 
 Now let's understand the new test cases.
 
-I'll explain the first three new test cases together, since they are very similar.
+The first new test case test something that is running in the background, but that is very important to automatically check:
 
-All the just mentioned test cases have the following in common:
+- It opens a second browser in the same room of the first browser and stores it in a variable named as `browser2`.
+- It stores in a variable named as `videoOnBrowser2` the return of the `getVideoElementOnBrowser2` method from the `webrtcSample` Page Object.
+- It stores in a variable named as `isVideoFlowingScript` the return of `video.readyState === 4`. When this returns `true` means that video is flowing (WebRTC logic).
+- It sets `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application in the second browser is a non-AngularJS application as well.
+- It waits for a maximum of `5000` milliseconds for the `videoOnBrowser2` to be visible.
+- It runs the expectations that video is flowing in both browsers.
+- Finally, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
+
+I'll explain the next three new test cases together, since they are very similar:
 
 - They store in a variable named as `browser2` the new opened browser.
 - They store the first incoming photo from `browser2` in a variable named as `incomingPhotoOnBrowser2` for later verification.
-- They set `browser2.ignoreSynchronization` equal to `true`, since Protractor needs to know that the application in the second browser is a non-AngularJS application as well.
+- They set `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
 - They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, this is why we have some nested code).
 - Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds (`DEFAULT_TIMEOUT`) for the `incomingPhotoOnBrowser2` to be visible.
 - Specifically for the third new test case the `browser2` is refreshed.
 - They run their specific verifications, such as expecting that the `incomingPhotoOnBrowser2` is displayed after the first browser clicks `snap & send` or `snap` and `send`; and expecting that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
-- Finally, `browser2` is closed using the `quit()` function, since Protractor only knows that it has to automatically closes the first browser.
+- And they close `browser2` with the `quit()` function.
 
-The last new test is a bit different:
+And the last new test case:
 
 - It also stores in a variable named as `browser2` the new opened browser.
 - It stores in a variable named as `incomingPhotosOnBrowser2` all the incoming photos for later verification.
 - It also sets `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
 - It clicks in the `snapAndSendButton` and calls the `.then` function, since the click returns a promise, and does it again for the second click.
-- Then the different part starts. It stores in a variable named as `twoIncomingPhotos` a function that returns a promise when the `count` promise is equal to `2`, for usage in the `browser2.wait` function that comes next.
+- It stores in a variable named as `twoIncomingPhotos` a function that returns a promise when the `count` promise is equal to `2`, for usage in the `browser2.wait` function that comes next.
 - It waits for a maximum of `5000` milliseconds for the just created condition to be `true`, meaning that two incoming photos are available.
 - It finally does the verification, expecting that the count of incoming photos is `2`.
 - And it closes `browser2` with the `quit()` function.
@@ -775,23 +803,24 @@ Started
 .    ✓ should stream be active
 .    ✓ should autoplay video be enabled
 .    ✓ should have the same room name on url and when returning it on console
+.    ✓ should check that video is flowing between clients
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap & send' and they are in the same room
 .    ✓ should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'send' and they are in the same room
 .    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
 .    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
 .
-Executed 10 of 10 specs SUCCESS in 5 secs.
+Executed 11 of 11 specs SUCCESS in 6 secs.
 
 
 
-10 specs, 0 failures
-Finished in 5.384 seconds
-[18:07:48] I/local - Shutting down selenium standalone server.
-[18:07:48] I/launcher - 0 instance(s) of WebDriver still running
-[18:07:48] I/launcher - chrome #01 passed
+11 specs, 0 failures
+Finished in 6.376 seconds
+[19:13:25] I/local - Shutting down selenium standalone server.
+[19:13:25] I/launcher - 0 instance(s) of WebDriver still running
+[19:13:25] I/launcher - chrome #01 passed
 ```
 
-Yay! 10 test cases running and passing in 5 seconds and we are covering the most important scenarios of the application.
+Yay! 11 test cases running and passing in 6 seconds and we are covering the most important scenarios of the application.
 
 ## Summary and other resources
 
