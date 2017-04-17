@@ -3,7 +3,7 @@
 const SpecReporter = require("jasmine-spec-reporter").SpecReporter;
 
 module.exports.config = {
-    "specs": ["spec.js"],
+    "specs": ["*.spec.js"],
     "capabilities": {
         "browserName": "chrome",
         "chromeOptions": {
@@ -23,6 +23,6 @@ module.exports.config = {
         }));
     },
     "jasmineNodeOpts": {
-        "defaultTimeoutInterval": 10000
+        "defaultTimeoutInterval": 5000
     }
 };
