@@ -45,7 +45,7 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 ## Pre-requirements
 
 - Knowledge of JavaScritp
-- Basic Knowledge of CSS selectors
+- Basic knowledge of CSS selectors
 - Computer with camera (app requirement)
 - Node.js v6.x+ (use the following URL to download Node.js in case you don't have it yet: https://nodejs.org/)
 - Chrome browser (due to WebRTC compatibility)
@@ -618,7 +618,6 @@ The idea is create test cases for the following scenarios:
 - Check that a incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
 - Check that a incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photo
 - Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
-- Check that an alert is shown when two clients are in the same room and a third one tries to join
 
 Note: For all the above mentioned test cases both clients/browsers will be in the same room.
 
@@ -780,7 +779,7 @@ Started
 .    ✓ should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room
 .    ✓ should show two incoming photos on browser 2 when browser 1 clicks 'snap & send' twice and they are in the same room
 .
-Executed 10 of 10 specs SUCCESS in 7 secs.
+Executed 10 of 10 specs SUCCESS in 5 secs.
 
 
 
