@@ -146,7 +146,7 @@ The first thing needed to start using Protractor is to setup some basic configur
 
 Follow the below instructions:
 
-In the project's root directory, create a `test` directory, and inside this new directory create a file named `protractor.conf.js`.
+In the project's root directory, create a `test` directory, and inside this new directory create a file named as `protractor.conf.js`.
 
 After creating the file, add the following code snippet to it (each part will be explained):
 
@@ -674,15 +674,15 @@ it("should show incoming photo on browser 2 when browser 1 clicks 'snap' and 'se
     const incomingPhotoOnBrowser2 = webrtcSample.getFirstIncomingPhotoOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapButton.click().then(() => {
-        webrtcSample.sendButton.click().then(() => {
+    webrtcSample.snapButton.click()
+        .then(() => webrtcSample.sendButton.click())
+        .then(() => {
             browser2.wait(EC.visibilityOf(incomingPhotoOnBrowser2), DEFAULT_TIMEOUT);
 
             expect(incomingPhotoOnBrowser2.isDisplayed()).toBe(true);
 
             browser2.quit();
         });
-    });
 });
 
 it("should not show incoming photo on browser 2 when browser 1 clicks 'snap & send', but after that, browser 2 refreshes the page, and they are in the same room", () => {
@@ -705,19 +705,20 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
     const incomingPhotosOnBrowser2 = webrtcSample.getIncomingPhotosOnBrowser2(browser2);
 
     browser2.ignoreSynchronization = true;
-    webrtcSample.snapAndSendButton.click().then(() => {
-        webrtcSample.snapAndSendButton.click().then(() => {
+    webrtcSample.snapAndSendButton.click()
+        .then(() => webrtcSample.snapAndSendButton.click())
+        .then(() => {
             const twoIncomingPhotos = function() {
                 return incomingPhotosOnBrowser2.count().then((numberOfPhotos) => {
                     return numberOfPhotos === 2;
                 });
             };
             browser2.wait(twoIncomingPhotos, DEFAULT_TIMEOUT);
+
             expect(incomingPhotosOnBrowser2.count()).toBe(2);
 
             browser2.quit();
         });
-    });
 });
 ```
 
@@ -765,9 +766,9 @@ I'll explain the next three new test cases together, since they are very similar
 - They store in a variable named as `browser2` the new opened browser.
 - They store the first incoming photo from `browser2` in a variable named as `incomingPhotoOnBrowser2` for later verification.
 - They set `browser2.ignoreSynchronization` equal to `true` (non-AngularJS app).
-- They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed, this is why we have some nested code).
+- They perform clicks in the `snapAndSendButton` or `snapButton` and `sendButton` and call the `.then` function, since each click returns a promise. (The `.then` function is called for each `click()` performed).
 - Inside the callback of the last `.then` function they wait for a maximum of `5000` milliseconds (`DEFAULT_TIMEOUT`) for the `incomingPhotoOnBrowser2` to be visible.
-- Specifically for the third new test case the `browser2` is refreshed.
+- Specifically for the fourth new test case the `browser2` is refreshed.
 - They run their specific verifications, such as expecting that the `incomingPhotoOnBrowser2` is displayed after the first browser clicks `snap & send` or `snap` and `send`; and expecting that no incoming photo is displayed on `browser2` after the first browser clicks `snap & send`, but the second browser refreshes the page.
 - And they close `browser2` with the `quit()` function.
 
