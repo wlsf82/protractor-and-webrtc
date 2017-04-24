@@ -61,6 +61,7 @@ Some suggestions of contributions are:
 - Fix potential issues in the sample app
 - Make it work with Firefox and Opera browsers
 - Add test for checking ICE connection state
+- Fix typos and grammar issues
 
 ## Lesson 0 - Setup
 
