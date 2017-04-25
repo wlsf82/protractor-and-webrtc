@@ -6,15 +6,15 @@ Protractor is an end-to-end test framework for AngularJS applications, but it ca
 
 With Protractor, tests are executed against web applications running in real browsers, interacting with it as users would.
 
-WebRTC stands from Web Real Time Communication. It is an open source project to enable rea ltime communication of audio, video and data in native and web apps, and it is very important to test such applications in an end-to-end way, to ensure that it works to the end users.
+WebRTC stands from Web Real Time Communication. It is an open source project to enable realtime communication of audio, video and data in native and web apps, and it is very important to test such applications in an end-to-end way, to ensure that it works to the end users.
 
-Creating end-to-end tests for real time communication apps is not exactly the same as it is for other kind of applications, where all the tests can run in a single instance of browser.
+Creating end-to-end tests for real time communication apps is not exactly the same as it is for other kind of web applications, where all the tests can run in a single instance of browser.
 
-When talking about WebRTC apps, we need to keep in mind that the core of such application is communication, and this means that clients in two or more browsers will be interacting with each other using the app, so, automated tests needs to ensure that the correct behavior is happening for real use cases.
+When talking about WebRTC apps we need to keep in mind that the core of such application is communication, and this means that clients in two or more browsers will be interacting with each other using the app, so, automated tests needs to ensure that the correct behavior is happening for real use cases.
 
 ## Motivation
 
-I work with software testing automation using the Protractor framework for almost 3 years, and now that I'm using this framework professionally for testing WebRTC applications, I thought would be nice to share some learnings with the software community.
+I work with software test automation using the Protractor framework for almost 3 years, and now that I'm using this framework professionally for testing WebRTC applications, I thought would be nice to share some learnings with the software community.
 
 This project was created during Easter holidays and I hope it will be useful for software engineers developing WebRTC applications.
 
@@ -47,7 +47,7 @@ Note: there is no need to clone the app from the Google's code lab, since this i
 - Knowledge of JavaScritp
 - Basic knowledge of CSS selectors
 - Node.js v6.x+ (use the following URL to download Node.js in case you don't have it yet: https://nodejs.org/)
-- Chrome, Firefox or Opera browser(due to WebRTC compatibility)
+- Chrome, Firefox or Opera browser (due to WebRTC compatibility)
 
 ## Feedback and contributions
 
@@ -60,7 +60,7 @@ Some suggestions of contributions are:
 - Translation to other languages
 - Fix potential issues in the sample app
 - Make it work with Firefox and Opera browsers
-- Add test for checking ICE connection state
+- Add test for checking ICE connection state (WebRTC related)
 - Fix typos and grammar issues
 
 ## Lesson 0 - Setup
@@ -95,13 +95,13 @@ From the project's root directory, run the below command:
 
 With the app running, open the Chrome browser and type the following URL and press ENTER: http://localhost:8080
 
-If everything went ok, you should see the WebRTC Sample app running.
+If everything went ok you should see the WebRTC Sample app running.
 
 Note: This app requires camera access, so, in the first time you access it, you may allow the browser to access your computer's camera.
 
-After allowing the browser to access the camera, you should see yourself in the app.
+After allowing the browser to access the camera you should see yourself in the app.
 
-Note: don't worry if your computer doesn't have a camera, we will a fake camera device for the automated tests.
+Note: don't worry if your computer doesn't have a camera, we will use a fake camera device for the automated tests.
 
 Now that everything is working it's time to install Protractor, so that you can create automated end-to-end tests.
 
@@ -128,7 +128,7 @@ After the Protractor's successful installation, the following code should be dis
 }
 ```
 
-As a last step for the Protractor installation, update the just shown code (above) to look like this:
+As a last step for the Protractor installation, update the just shown code (the above one) to look like this (the below one):
 
 ```
 "devDependencies": {
@@ -184,7 +184,7 @@ module.exports.config = {
 
 First of all, we are defining `"use strict;"` because all the testing code will be written using ECMAScript 2015 syntax.
 
-Secondly we are requiring the `jasmine-spec-reporter` module and we are storing it in a variable named `SpecReporter`. This will be used for a better test report in the console when running the tests.
+Secondly, we are requiring the `jasmine-spec-reporter` module and we are storing it in a variable named as `SpecReporter`. This will be used for a better test report in the console when running the tests.
 
 Then we are exporting a config module, where all configurations needed for Protractor to run will be defined.
 
@@ -310,9 +310,9 @@ describe("WebRTC Sample", () => {
 
 Again, in the beginning we are using `"use strict";` due to ECMAScript 2015 syntax.
 
-Then we are defining a `describe` statement, that receives two arguments, the first one is a string that will name the test suite (in this case `"WebRTC Sample"`), and the second argument is a callback function, that we run all our test cases.
+Then we are defining a `describe` statement, that receives two arguments, the first one is a string that will name the test suite (in this case `"WebRTC Sample"`), and the second argument is a callback function, that will run all our test cases.
 
-Inside the just mentioned callback function we define an `it` statement. This statement also receives a string as the first argument and a callback function as the second argument. The first argument will basically name our first test case, and the second one will run all the steps of our test case.
+Inside the just mentioned callback function we define an `it` statement. This statement also receives a string as the first argument and a callback function as the second argument. The first argument will basically name our test case, and the second one will run all the steps of our test case.
 
 Finally, we define the steps for the test to run.
 
@@ -496,7 +496,7 @@ describe("WebRTC Sample", () => {
 
 Note that a `beforeEach` function was created and that the code for the test to access the URL of the application under test was moved to the callback of this function.
 
-This is useful for not duplicating the call of the `browser.driver.get()` statement in all tests. This way we ensure that each test is independent of each other, and also, to ensure that each test is with the application in a "clean" state.
+This is useful for not duplicating the call of the `return browser.driver.get()` statement in all tests. This way we ensure that each test is independent of each other, and also, to ensure that each test is with the application in a "clean" state.
 
 Note also that beyond the already existing test, we now have two more tests.
 
@@ -537,7 +537,7 @@ it("should have the same room name on url and when returning it on console", () 
     expect(roomNameFromUrl).toEqual(roomNameFromConsole);
 });
 ```
-The first new test stores in a variable named as `isStreamActive` the return of the `browser.executeScript` promise. This `browser.executeScript` receives as argument a pure JavaScript code that returns `window.stream.active`. Finally, it expects that the value stored in the variable is equal to `true`, meaning that stream is active.
+The first new test stores in a variable named as `isStreamActive` the return of the `browser.executeScript` promise. This `browser.executeScript` receives as argument a pure JavaScript code (quoted) that returns `window.stream.active`. Finally, it expects that the value stored in the variable is equal to `true`, meaning that stream is active.
 
 The second new test stores in a variable named as `isVideoAutoplayEnabled` the return of the `browser.executeScript` promise as well. In this case `browser.executeScript` receives a variable for the video element and then returns the property `autoplay` of this element. Finally, it expects that the value stored in the variable is equal to `true`, meaning that video autoplay is enabled.
 
@@ -558,7 +558,7 @@ getRoomNameFromUrl() {
 
 This method will basically return the room name generated when visiting the home page of the WebRTC Sample application, directly from the URL.
 
-The `browser.getCurrentUrl()` statement returns a promise, so the `.then` function is called with its callback (that receives `url` as argument), then a variable named as `roomNameFromUrl` uses the `replace` JavaScript method to store in the variable only the room name, removing the rest of the URL using a regular expression.
+The `browser.getCurrentUrl()` statement returns a promise, then the `.then` function is called with its callback (that receives `url` as argument), then a variable named as `roomNameFromUrl` uses the `replace` JavaScript method to store in the variable only the room name, removing the rest of the URL using a regular expression.
 
 Now you can revisit the third new test and note that:
 
@@ -604,7 +604,7 @@ Now that we have a good test suite for the basic things of our WebRTC sample app
 In this lesson you will learn:
 
 - How to create tests where two browsers interact with each other
-- How to create other Page Object methods that are useful for tests with two
+- How to create other Page Object methods that are useful for tests with two browsers
 
 ### Brief introduction to real use cases of WebRTC application testing
 
@@ -619,9 +619,9 @@ With this WebRTC Sample application it is possible to take snaps and send to the
 The idea is create test cases for the following scenarios:
 
 - Check that video is flowing between two clients
-- Check that a incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
-- Check that a incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
-- Check that a incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photo
+- Check that an incoming photo is displayed on browser 2 when browser 1 clicks 'snap & send'
+- Check that an incoming photo is displayed on browser 2 when browser 1 clicks 'snap' and 'send'
+- Check that an incoming photo is not displayed on browser 2 when browser 1 clicks 'snap & send' but browser 2 refreshes the page after receiving the photo
 - Check that two incoming photos are displayed on browser 2 when browser 1 clicks 'snap & send' twice
 
 Note: For all the above mentioned test cases both clients/browsers will be in the same room.
@@ -637,7 +637,7 @@ const EC = protractor.ExpectedConditions;
 
 In the above code we are basically defining a constant named as `DEFAULT_TIMEOUT` with the value of `5000` milliseconds. This exact same value will be used for some of the new test cases, so it is better to have it as a constant, to avoid duplication.
 
-We are also storing in a variable called `EC` the `protractor.ExpectedConditions`, that are used together with `browser.wait` and with the timeout, to wait for elements being in a specific state, for example, before interacting or performing verifications with them. This is mostly used when testing non-AngularJS apps.
+We are also storing in a variable called `EC` the `protractor.ExpectedConditions` that is used together with `browser.wait` and with the timeout, to wait for elements being in a specific state, for example, before interacting or performing verifications with them. This is mostly used when testing non-AngularJS apps.
 
 Then, update the same file with the below new test cases (they will all be explained in details later):
 
@@ -747,12 +747,12 @@ These new methods are used to (in this order):
 
 - Start a new browser in the exact same room where the first browser is (note that a `browser` argument is needed, since this is used in the `forkNewDriverInstance(true)`. The `true` argument means that the new browser instance will use the same URL of the base browser).
 - Returns the video element from `browser2` (note that a `browser2` argument is needed and that `browser2.element` is used to locate the element in the second browser).
-- Return the first incoming photo on `browser2` (the same logic of the previous method is applied here).
+- Returns the first incoming photo on `browser2` (the same logic of the previous method is applied here).
 - Return all the incoming photos from `browser2` (the same logic of the previous method is applied here as well).
 
 Now let's understand the new test cases.
 
-The first new test case test something that is running in the background, but that is very important to automatically check:
+The first new test case verifies something that is running in the background, but that is very important to automatically check:
 
 - It opens a second browser in the same room of the first browser and stores it in a variable named as `browser2`.
 - It stores in a variable named as `videoOnBrowser2` the return of the `getVideoElementOnBrowser2` method from the `webrtcSample` Page Object.
@@ -848,7 +848,7 @@ To keep learning about this subject here are some other content resources that m
 
 [Protractor](https://www.casadocodigo.com.br/products/livro-protractor) - book - Portuguese version of the above book
 
-[Talking About Testing blog](https://talkingabouttesting.com/category/protractor-2/) - content is Portuguese (use Google Translator)
+[Talking About Testing](https://talkingabouttesting.com/category/protractor-2/) - blog - content is Portuguese (use Google Translator)
 
 [Learning Protractor](https://www.youtube.com/playlist?list=PL-eblSNRj0QEvVfKp0Xzagao9SqaSyW5k) - hands on videos on Youtube with Portuguese content about Protractor in general
 ___
