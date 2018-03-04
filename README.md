@@ -121,7 +121,7 @@ The `-D` argument will install Protractor and jasmine-spec-reporter as a dev dep
 
 After the Protractor's successful installation, the following code should be displayed in the `package.json` file (the `jasmine-spec-reporter` version may be newer):
 
-```
+```js
 "devDependencies": {
   "jasmine-spec-reporter": "^3.2.0",
   "protractor": "^5.0.0"
@@ -130,7 +130,7 @@ After the Protractor's successful installation, the following code should be dis
 
 As a last step for the Protractor installation, update the just shown code (the above one) to look like this (the below one):
 
-```
+```js
 "devDependencies": {
   "jasmine-spec-reporter": "^3.2.0",
   "protractor": "5.0.0"
@@ -151,7 +151,7 @@ In the project's root directory, create a `test` directory, and inside this new 
 
 After creating the file, add the following code snippet to it (each part will be explained):
 
-```
+```js
 "use strict";
 
 const SpecReporter = require("jasmine-spec-reporter").SpecReporter;
@@ -226,7 +226,7 @@ Note: remember to separate the scripts using comma.
 
 In the end you will have a `"scripts"` section like this:
 
-```
+```js
 "scripts": {
   "start": "node index.js",
   "test": "./node_modules/.bin/webdriver-manager update && ./node_modules/.bin/protractor test/protractor.conf.js"
@@ -295,7 +295,7 @@ In the already created test directory, create a file named as `webrtcSample.spec
 
 Add the following code snippet to the just created file (every part of the code willl be explained):
 
-```
+```js
 "use strict";
 
 describe("WebRTC Sample", () => {
@@ -380,7 +380,7 @@ The `.po` extension means that this is a Page Object file. This is a convention 
 
 Add the following code snipped to the just created `.po` file (all the code will be explained):
 
-```
+```js
 "use strict";
 
 class WebrtcSample {
@@ -427,7 +427,7 @@ With the Page Object created, before creating new tests we can update the alread
 
 Change the code of the already existing test to look like this (the code will be explained):
 
-```
+```js
 "use strict";
 
 const WebrtcSample = require("./webrtcSample.po");
@@ -464,7 +464,7 @@ Let's create some new tests to check that the main elements of the application a
 
 Update the `webrtcSample.spec.js` file with the following new code:
 
-```
+```js
 "use strict";
 
 const WebrtcSample = require("./webrtcSample.po");
@@ -517,7 +517,7 @@ This kind of verifications will be the focus of the new tests that we will creat
 
 Update the `webrtcSample.spec.js` file with the following new tests:
 
-```
+```js
 it("should stream be active", () => {
     const isStreamActive = browser.executeScript("return window.stream.active;");
 
@@ -547,7 +547,7 @@ Now let's update the Page Object file before the explanation of the third new te
 
 Add the following method to the `WebrtcSample` class, right below the `constructor` definition:
 
-```
+```js
 getRoomNameFromUrl() {
     return browser.getCurrentUrl().then((url) => {
         const roomNameFromUrl = url.replace(/http:\/\/localhost:[0-9]{0,4}\/#/g, "");
@@ -630,7 +630,7 @@ Note: For all the above mentioned test cases both clients/browsers will be in th
 
 First of all, update the `webrtcSample.spec.js` file with the below code, right below the `"use strict"` statement, and before requiring the Page Object:
 
-```
+```js
 const DEFAULT_TIMEOUT = 5000;
 const EC = protractor.ExpectedConditions;
 ```
@@ -641,7 +641,7 @@ We are also storing in a variable called `EC` the `protractor.ExpectedConditions
 
 Then, update the same file with the below new test cases (they will all be explained in details later):
 
-```
+```js
 it("should check that video is flowing between clients", () => {
     const browser2 = webrtcSample.openNewBrowserInTheSameRoom(browser);
     const videoOnBrowser2 = webrtcSample.getVideoElementOnBrowser2(browser2);
@@ -725,7 +725,7 @@ it("should show two incoming photos on browser 2 when browser 1 clicks 'snap & s
 
 Finally, update the `webrtcSample.po.js` file adding the following new methods (they will all be explained as well):
 
-```
+```js
 openNewBrowserInTheSameRoom(browser) {
     return browser.forkNewDriverInstance(true);
 }
