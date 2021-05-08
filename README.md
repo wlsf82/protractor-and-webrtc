@@ -1,5 +1,7 @@
 # Protractor and WebRTC
 
+⚠️ **This project has been deprecated.** ⚠️
+
 This project is a code lab to teach the basics for creating end-to-end tests with [Protractor](http://www.protractortest.org/#/) for [WebRTC](http://webrtc.org/) applications.
 
 Protractor is an end-to-end test framework for AngularJS applications, but it can be used for non-AngularJS apps as well, as will be shown in this code lab.
